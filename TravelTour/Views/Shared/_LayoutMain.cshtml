@@ -1,0 +1,79 @@
+﻿@{
+    var title = ViewData["Title"] ?? "LOFT CITY";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/img/favicon.ico" rel="icon" />
+    <link href="~/img/apple-favicon.png" rel="apple-touch-icon" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Raleway:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <!-- Vendor CSS -->
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/vendor/slick/slick.css" rel="stylesheet" />
+    <link href="~/vendor/slick/slick-theme.css" rel="stylesheet" />
+    <link href="~/vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Main CSS -->
+    <link href="~/css/hover-style.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Header Start -->
+    <header id="header">
+        <div class="phone"><i class="fa fa-phone"></i>+1 234 567 8900</div>
+        <div class="mobile-menu-btn"><i class="fa fa-bars"></i></div>
+        <nav class="main-menu top-menu">
+            <ul>
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li><a asp-controller="Home" asp-action="About">About Us</a></li>
+                <li><a asp-controller="Home" asp-action="Room">Apartments</a></li>
+                <li><a asp-controller="Home" asp-action="Amenities">Amenities</a></li>
+                <li><a asp-controller="Home" asp-action="Booking">Booking</a></li>
+                <li><a asp-controller="Home" asp-action="Login">Login</a></li>
+                <li><a asp-controller="Home" asp-action="Contact">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Header End -->
+
+    <div>
+        @RenderBody()
+    </div>
+
+    <!-- Footer Start -->
+    <footer id="footer">
+        <div class="container">
+            <div class="social">
+                <a href="#"><li class="fa fa-instagram"></li></a>
+                <a href="#"><li class="fa fa-twitter"></li></a>
+                <a href="#"><li class="fa fa-facebook-f"></li></a>
+            </div>
+            <ul>
+                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li><a asp-controller="Home" asp-action="About">About</a></li>
+                <li><a href="#">Terms</a></li>
+                <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+            </ul>
+            <p>Copyright &#169; HTML Codex All Rights Reserved.</p>
+        </div>
+    </footer>
+    <!-- Footer End -->
+
+    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+    <!-- JS Files -->
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/vendor/slick/slick.min.js"></script>
+    <script src="~/vendor/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="~/js/main.js"></script>
+</body>
+</html>
+
