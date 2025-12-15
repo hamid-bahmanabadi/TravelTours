@@ -45,6 +45,7 @@ namespace Entities
         [Required]
         
         public int Capacity { get; set; }
+        public bool IsActive { get; set; }=true;
 
         public IEnumerable<Image> Images { get; set; }
         public IEnumerable<Reservation> Reservations { get; set; }
