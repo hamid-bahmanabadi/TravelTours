@@ -347,6 +347,9 @@ namespace Entities.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsConfirm")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsSpecial")
                         .HasColumnType("bit");
 
@@ -360,6 +363,9 @@ namespace Entities.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("TourType")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
