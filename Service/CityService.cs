@@ -32,9 +32,9 @@ namespace Service
 
         }
 
-        public async Task DeleteCity(CityDto cityDto)
+        public async Task DeleteCity(long id)
         {
-            var city = await _context.Cities.FirstOrDefaultAsync(x=>x.Id == cityDto.Id);
+            var city = await _context.Cities.FirstOrDefaultAsync(x=>x.Id == id);
              _context.Cities.Remove(city);
             await _context.SaveChangesAsync();
         }

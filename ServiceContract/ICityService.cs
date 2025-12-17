@@ -13,7 +13,7 @@ namespace ServiceContract
         Task<CityDto> GetCityById(long id);
         Task CreateCity(CityDto cityDto);
         Task UpdateCity(CityDto cityDto);
-        Task DeleteCity(CityDto cityDto);
+        Task DeleteCity(long id);
 
     }
 }
