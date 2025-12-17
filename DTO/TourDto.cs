@@ -65,5 +65,10 @@ namespace DTO
 
         [Display(Name = "فعال")]
         public bool IsActive { get; set; }
+
+        public string? CityName { get; set; }
+        public string? AgencyName { get; set; }
+        public string? CategoryName { get; set; }
+          
     }
 }
