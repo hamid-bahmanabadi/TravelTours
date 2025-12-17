@@ -12,15 +12,18 @@ namespace DTO
         
         public long Id { get; set; }
 
-        [Required(ErrorMessage ="نام اجباری است ")]
+        [Display(Name = "نام مقصد")]
+        [Required(ErrorMessage = "{0} اجباری است ")]
         [StringLength(150)]
         public string Name { get; set; }
 
-        [Required(ErrorMessage ="نام کشور اجباری است ")]
+        [Display(Name = "نام کشور")]
+        [Required(ErrorMessage =" {0} اجباری است ")]
         [StringLength(150)]
         public string Country { get; set; }
 
-        [Required(ErrorMessage ="لطفا توضیحات رو پر کنید")]
+        [Display(Name = "توضیحات")]
+        [Required(ErrorMessage ="لطفا {0} رو پر کنید")]
         [StringLength(500)]
         public string Description { get; set; }
     }
