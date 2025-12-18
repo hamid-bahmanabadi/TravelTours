@@ -2,7 +2,7 @@
     var title = ViewData["Title"] ?? "LOFT CITY";
 }
 <!DOCTYPE html>
-<html lang="fa"dir="rtl">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="utf-8" />
     <title>@title</title>
@@ -10,20 +10,15 @@
     <link href="~/img/favicon.ico" rel="icon" />
     <link href="~/img/apple-favicon.png" rel="apple-touch-icon" />
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Raleway:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-
-    <!-- Vendor CSS -->
+    <!-- CSS Files -->
     <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <link href="~/vendor/slick/slick.css" rel="stylesheet" />
     <link href="~/vendor/slick/slick-theme.css" rel="stylesheet" />
-    <link href="~/vendor/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-
-    <!-- Main CSS -->
-    <link href="~/css/hover-style.css" rel="stylesheet" />
     <link href="~/css/style.css" rel="stylesheet" />
+
 </head>
+
 <body>
     <!-- Header Start -->
     <header id="header">
@@ -37,23 +32,68 @@
                 <li><a asp-controller="Home" asp-action="Amenities">امکانات</a></li>
                 <li><a asp-controller="Home" asp-action="Booking">رزرو</a></li>
                 <li><a asp-controller="Home" asp-action="Login">ورود</a></li>
-                <li><a asp-controller="Home" asp-action="Contact"> تماس با ما</a></li>
+                <li><a asp-controller="Home" asp-action="Contact">تماس با ما</a></li>
             </ul>
         </nav>
     </header>
     <!-- Header End -->
-
+    <!-- Main Content -->
     <div>
         @RenderBody()
+    </div>
+
+    <div class="modal fade" id="persianCalendarModal" tabindex="-1" aria-labelledby="persianCalendarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="persianCalendarModalLabel">تقویم فارسی (جلالی)</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="بستن">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="today-date mb-3 p-2 bg-light rounded text-center">
+                        امروز: <span id="todayPersianDate" class="font-weight-bold text-primary">در حال بارگذاری...</span>
+                    </div>
+
+                    <div class="current-date-display text-center mb-3">
+                        تاریخ انتخاب شده: <span id="selectedDateDisplay" class="font-weight-bold text-success">هیچ تاریخی انتخاب نشده است</span>
+                    </div>
+
+                    <div class="datepicker-container">
+                        <div class="calendar-nav d-flex justify-content-between align-items-center mb-3 p-2 bg-light rounded">
+                            <button id="prevMonth" class="btn btn-sm btn-outline-primary">
+                                <i class="fa fa-chevron-right"></i> ماه قبل
+                            </button>
+                            <h5 id="currentMonthYear" class="mb-0 text-dark font-weight-bold">اسفند ۱۴۰۲</h5>
+                            <button id="nextMonth" class="btn btn-sm btn-outline-primary">
+                                ماه بعد <i class="fa fa-chevron-left"></i>
+                            </button>
+                        </div>
+                        <div id="calendarContainer" class="mb-4">
+                            <!-- Calendar will be generated here by JavaScript -->
+                            <div class="text-center text-muted py-5">
+                                <p>لطفا صبر کنید...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">بستن</button>
+                        <button type="button" class="btn btn-primary" id="selectTodayBtn">انتخاب امروز</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Footer Start -->
     <footer id="footer">
         <div class="container">
             <div class="social">
-                <a href="#"><li class="fa fa-instagram"></li></a>
-                <a href="#"><li class="fa fa-twitter"></li></a>
-                <a href="#"><li class="fa fa-facebook-f"></li></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+                <a href="#"><i class="fa fa-facebook-f"></i></a>
             </div>
             <ul>
                 <li><a asp-controller="Home" asp-action="Index">خانه</a></li>
@@ -65,15 +105,379 @@
         </div>
     </footer>
     <!-- Footer End -->
-
+    <!-- Back to Top -->
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 
-    <!-- JS Files -->
+    <!-- JavaScript Files -->
     <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/jquery/jquery-migrate.min.js"></script>
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/vendor/slick/slick.min.js"></script>
-    <script src="~/vendor/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Main JS -->
     <script src="~/js/main.js"></script>
+
+    <!-- تقویم فارسی کاملاً اصلاح شده (بدون خطای constant) -->
+    <script>
+        // Persian date utilities
+        const persianMonths = [
+            'فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور',
+            'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'
+        ];
+
+        const persianDays = ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'];
+        const persianDaysFull = ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه'];
+
+        // Variables to track state
+        let currentPersianDate = getPersianDate(new Date());
+        let selectedPersianDate = { ...currentPersianDate };
+        let activeDateInput = null; // Track which input field triggered the calendar
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log("تقویم فارسی در حال راه‌اندازی...");
+
+            // Set today's date
+            const todayDateElement = document.getElementById('todayPersianDate');
+            const selectedDateElement = document.getElementById('selectedDateDisplay');
+
+            if (todayDateElement) {
+                todayDateElement.textContent = formatDateFull(currentPersianDate);
+            }
+
+            if (selectedDateElement) {
+                selectedDateElement.textContent = formatDateFull(selectedPersianDate);
+            }
+
+            // Update calendar display
+            updateCalendarDisplay();
+
+            // Add click events to all Persian date inputs
+            document.querySelectorAll('.persian-date-input').forEach(input => {
+                input.addEventListener('click', function () {
+                    console.log("کلیک روی input تاریخ");
+                    activeDateInput = this;
+                    generateCalendar(currentPersianDate);
+                    $('#persianCalendarModal').modal('show');
+                });
+            });
+
+            // Add click events to calendar icons
+            document.querySelectorAll('.input-group-text').forEach(icon => {
+                icon.addEventListener('click', function () {
+                    console.log("کلیک روی آیکون تقویم");
+                    const input = this.closest('.input-group').querySelector('.persian-date-input');
+                    if (input) {
+                        activeDateInput = input;
+                        generateCalendar(currentPersianDate);
+                        $('#persianCalendarModal').modal('show');
+                    }
+                });
+            });
+
+            // Event listeners for navigation buttons
+            const prevMonthBtn = document.getElementById('prevMonth');
+            const nextMonthBtn = document.getElementById('nextMonth');
+            const selectTodayBtn = document.getElementById('selectTodayBtn');
+
+            if (prevMonthBtn) {
+                prevMonthBtn.addEventListener('click', function () {
+                    currentPersianDate = getPrevMonth(currentPersianDate);
+                    updateCalendarDisplay();
+                    generateCalendar(currentPersianDate);
+                });
+            }
+
+            if (nextMonthBtn) {
+                nextMonthBtn.addEventListener('click', function () {
+                    currentPersianDate = getNextMonth(currentPersianDate);
+                    updateCalendarDisplay();
+                    generateCalendar(currentPersianDate);
+                });
+            }
+
+            if (selectTodayBtn) {
+                selectTodayBtn.addEventListener('click', function () {
+                    selectedPersianDate = getPersianDate(new Date());
+                    currentPersianDate = getPersianDate(new Date());
+                    if (selectedDateElement) {
+                        selectedDateElement.textContent = formatDateFull(selectedPersianDate);
+                    }
+
+                    if (activeDateInput) {
+                        activeDateInput.value = formatDateInput(selectedPersianDate);
+                    }
+
+                    updateCalendarDisplay();
+                    generateCalendar(currentPersianDate);
+                });
+            }
+
+            // Generate initial calendar
+            generateCalendar(currentPersianDate);
+        });
+
+        // Helper functions
+        function getPersianDate(gregorianDate) {
+            // Convert Gregorian to Persian (simplified version)
+            const gYear = gregorianDate.getFullYear();
+            const gMonth = gregorianDate.getMonth() + 1;
+            const gDay = gregorianDate.getDate();
+
+            // Simple conversion (for demo purposes)
+            let pYear = gYear - 621;
+            let pMonth, pDay;
+
+            // Determine Persian month and day based on Gregorian date
+            const dayOfYear = Math.floor((gregorianDate - new Date(gYear, 0, 0)) / 1000 / 60 / 60 / 24);
+
+            // Approximate Persian calendar (starts around March 21)
+            let persianDayOfYear = dayOfYear - 79; // March 21 is day 79-80
+            if (persianDayOfYear < 0) {
+                pYear--;
+                persianDayOfYear += 365;
+            }
+
+            // Determine month and day
+            if (persianDayOfYear <= 31) {
+                pMonth = 1;
+                pDay = persianDayOfYear;
+            } else if (persianDayOfYear <= 62) {
+                pMonth = 2;
+                pDay = persianDayOfYear - 31;
+            } else if (persianDayOfYear <= 93) {
+                pMonth = 3;
+                pDay = persianDayOfYear - 62;
+            } else if (persianDayOfYear <= 124) {
+                pMonth = 4;
+                pDay = persianDayOfYear - 93;
+            } else if (persianDayOfYear <= 155) {
+                pMonth = 5;
+                pDay = persianDayOfYear - 124;
+            } else if (persianDayOfYear <= 186) {
+                pMonth = 6;
+                pDay = persianDayOfYear - 155;
+            } else if (persianDayOfYear <= 216) {
+                pMonth = 7;
+                pDay = persianDayOfYear - 186;
+            } else if (persianDayOfYear <= 246) {
+                pMonth = 8;
+                pDay = persianDayOfYear - 216;
+            } else if (persianDayOfYear <= 276) {
+                pMonth = 9;
+                pDay = persianDayOfYear - 246;
+            } else if (persianDayOfYear <= 306) {
+                pMonth = 10;
+                pDay = persianDayOfYear - 276;
+            } else if (persianDayOfYear <= 336) {
+                pMonth = 11;
+                pDay = persianDayOfYear - 306;
+            } else {
+                pMonth = 12;
+                pDay = persianDayOfYear - 336;
+            }
+
+            return {
+                year: pYear,
+                month: pMonth,
+                day: pDay
+            };
+        }
+
+        function getPrevMonth(persianDate) {
+            let newMonth = persianDate.month - 1;
+            let newYear = persianDate.year;
+
+            if (newMonth < 1) {
+                newMonth = 12;
+                newYear--;
+            }
+
+            return {
+                year: newYear,
+                month: newMonth,
+                day: 1
+            };
+        }
+
+        function getNextMonth(persianDate) {
+            let newMonth = persianDate.month + 1;
+            let newYear = persianDate.year;
+
+            if (newMonth > 12) {
+                newMonth = 1;
+                newYear++;
+            }
+
+            return {
+                year: newYear,
+                month: newMonth,
+                day: 1
+            };
+        }
+
+        function formatDateFull(date) {
+            const today = new Date();
+            const dayIndex = today.getDay();
+            const dayName = persianDaysFull[dayIndex];
+            const monthName = persianMonths[date.month - 1];
+            return `${dayName}، ${date.day} ${monthName} ${date.year}`;
+        }
+
+        function formatDateInput(date) {
+            return `${date.year}/${date.month.toString().padStart(2, '0')}/${date.day.toString().padStart(2, '0')}`;
+        }
+
+        function updateCalendarDisplay() {
+            const currentMonthYear = document.getElementById('currentMonthYear');
+            if (currentMonthYear) {
+                const monthName = persianMonths[currentPersianDate.month - 1];
+                const year = currentPersianDate.year;
+                currentMonthYear.textContent = `${monthName} ${year}`;
+            }
+        }
+
+        function generateCalendar(date) {
+            const year = date.year;
+            const month = date.month;
+
+            // Days in each Persian month
+            const daysInMonth = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29];
+            // Adjust for leap year (Esfand has 30 days in leap year)
+            const daysInThisMonth = (month === 12 && isLeapYear(year)) ? 30 : daysInMonth[month - 1];
+
+            // Get first day of month (0 = شنبه, 6 = جمعه)
+            let firstDay = (getDayOfWeek(year, month, 1) + 1) % 7;
+
+            // Get today's date
+            const today = getPersianDate(new Date());
+
+            // Generate calendar HTML
+            let calendarHTML = `
+                            <table class="calendar-table">
+                                <thead>
+                                    <tr>
+                                        ${persianDays.map(day => `<th>${day}</th>`).join('')}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                        `;
+
+            let dayCounter = 1;
+            let isCurrentMonth = (today.year === year && today.month === month);
+
+            for (let week = 0; week < 6; week++) {
+                calendarHTML += '<tr>';
+
+                for (let dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++) {
+                    if (week === 0 && dayOfWeek < firstDay) {
+                        // Empty cells before the first day of month
+                        calendarHTML += '<td class="empty-cell"></td>';
+                    } else if (dayCounter > daysInThisMonth) {
+                        // Empty cells after the last day of month
+                        calendarHTML += '<td class="empty-cell"></td>';
+                    } else {
+                        // Day cell
+                        let cellClass = '';
+                        if (isCurrentMonth && today.day === dayCounter) {
+                            cellClass = 'today';
+                        }
+                        if (selectedPersianDate.year === year &&
+                            selectedPersianDate.month === month &&
+                            selectedPersianDate.day === dayCounter) {
+                            cellClass = 'selected';
+                        }
+
+                        calendarHTML += `
+                                        <td class="${cellClass}" data-day="${dayCounter}">
+                                            ${dayCounter}
+                                        </td>
+                                    `;
+                        dayCounter++;
+                    }
+                }
+
+                calendarHTML += '</tr>';
+
+                // Stop if we've shown all days
+                if (dayCounter > daysInThisMonth) {
+                    break;
+                }
+            }
+
+            calendarHTML += `
+                                </tbody>
+                            </table>
+                        `;
+
+            // Update calendar container
+            const calendarContainer = document.getElementById('calendarContainer');
+            if (calendarContainer) {
+                calendarContainer.innerHTML = calendarHTML;
+
+                // Add click event to each day cell
+                document.querySelectorAll('.calendar-table td[data-day]').forEach(cell => {
+                    cell.addEventListener('click', function () {
+                        const day = parseInt(this.getAttribute('data-day'));
+                        selectedPersianDate = {
+                            year: year,
+                            month: month,
+                            day: day
+                        };
+                        const selectedDateElement = document.getElementById('selectedDateDisplay');
+                        if (selectedDateElement) {
+                            selectedDateElement.textContent = formatDateFull(selectedPersianDate);
+                        }
+
+                        if (activeDateInput) {
+                            activeDateInput.value = formatDateInput(selectedPersianDate);
+                        }
+
+                        // Close modal after selection
+                        setTimeout(() => {
+                            $('#persianCalendarModal').modal('hide');
+                        }, 500);
+
+                        // Regenerate calendar to update selected highlight
+                        generateCalendar(currentPersianDate);
+                    });
+                });
+            }
+        }
+
+        // Helper functions for date calculations - اصلاح شده
+        function getDayOfWeek(year, month, day) {
+            // Simplified day of week calculation for Persian calendar
+            const baseDate = new Date(2023, 2, 21); // March 21, 2023 = 1 Farvardin 1402
+            const targetDate = new Date(baseDate);
+
+            // Calculate days difference
+            let daysDiff = 0;
+            for (let y = 1402; y < year; y++) {
+                daysDiff += isLeapYear(y) ? 366 : 365;
+            }
+
+            for (let m = 1; m < month; m++) {
+                const daysInMonth = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29];
+                daysDiff += (m === 12 && isLeapYear(year)) ? 30 : daysInMonth[m - 1];
+            }
+
+            daysDiff += (day - 1);
+
+            // Adjust target date
+            targetDate.setDate(baseDate.getDate() + daysDiff);
+
+            return targetDate.getDay(); // 0 = Sunday, 6 = Saturday
+        }
+
+        function isLeapYear(persianYear) {
+            // Persian leap year calculation
+            const cycle = (persianYear + 2346) % 2820;
+            return cycle < 21;
+        }
+    </script>
+
+    <!-- Optional: Render additional scripts from pages -->
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-

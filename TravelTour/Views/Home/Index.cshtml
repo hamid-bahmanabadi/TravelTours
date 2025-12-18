@@ -1,38 +1,92 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
-
 <div id="header-bottom">
-    <!-- Search Section Start -->
+    <!-- Main Search Section Start -->
     <div id="search" class="search-slider">
         <div class="container">
             <h1>حس راحتی کنید وقتی دور از خانه هستید</h1>
-            <div class="form-row" style="text-align:right">
-                <div class="control-group col-md-3">
-                    <label>ورود</label>
-                    <div class="form-group">
-                        <div class="input-group date" id="date-3" data-target-input="nearest">
-                            <div class="input-group-append" data-target="#date-3" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                            <input type="text" class="form-control datetimepicker-input" data-target="#date-3" />
-                        </div>
+            <div class="form-row">
+                <!-- First row of search filters -->
+                <div class="form-row w-100">
+                    <!-- Destination filter -->
+                    <div class="control-group col-md-3">
+                        <label>مقصد تور</label>
+                        <select class="custom-select">
+                            <option selected value="">همه مقاصد</option>
+                            <option value="tehran">تهران</option>
+                            <option value="mashhad">مشهد</option>
+                            <option value="isfahan">اصفهان</option>
+                            <option value="shiraz">شیراز</option>
+                            <option value="kish">کیش</option>
+                        </select>
+                    </div>
+
+                    <!-- Tour type filter -->
+                    <div class="control-group col-md-3">
+                        <label>نوع تور</label>
+                        <select class="custom-select">
+                            <option value="air">پروازی</option>
+                            <option value="land">زمینی</option>
+                            <option value="sea">دریایی</option>
+                            <option value="mix">ترکیبی</option>
+                        </select>
+                    </div>
+
+
+                    <!-- Group type filter -->
+                    <div class="control-group col-md-3">
+                        <label>نوع گروه</label>
+                        <select class="custom-select">
+                            <option selected value="">همه</option>
+                            <option value="private">خصوصی</option>
+                            <option value="group">گروهی</option>
+                            <option value="family">خانوادگی</option>
+                            <option value="couple">زوج</option>
+                            <option value="single">تک نفره</option>
+                        </select>
                     </div>
                 </div>
-                <div class="control-group col-md-3">
-                    <label>خروج</label>
-                    <div class="form-group">
-                        <div class="input-group date" id="date-4" data-target-input="nearest">
-                            <div class="input-group-append" data-target="#date-4" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                            <input type="text" class="form-control datetimepicker-input" data-target="#date-4" />
+                <!-- Check-in date field -->
+                <div class="form-group">
+                    <label>تاریخ ورود</label>
+                    <div class="input-group" id="date-1">
+                        <div class="input-group-append">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
+                        <input type="text" class="form-control persian-date-input" placeholder=" تاریخ ورود" readonly />
                     </div>
                 </div>
-                <div class="control-group col-md-3">
+
+                <!-- Check-out date field -->
+                <div class="form-group mr-3 ">
+                    <label>تاریخ خروج</label>
+                    <div class="input-group" id="date-2">
+                        <div class="input-group-append">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                        <input type="text" class="form-control persian-date-input" placeholder=" تاریخ خروج" readonly />
+                    </div>
+                </div>
+
+                <!-- Tour duration filter -->
+                <div class="control-group col-md-2">
+                    <label>مدت تور</label>
+                    <select class="custom-select">
+                        <option selected value="">همه مدت‌ها</option>
+                        <option value="1">1 روزه</option>
+                        <option value="2">2 روزه</option>
+                        <option value="3">3 روزه</option>
+                        <option value="4">4 روزه</option>
+                        <option value="5">5 روزه</option>
+                        <option value="6">6 روزه</option>
+                        <option value="7">7 روزه</option>
+                        <option value="8">8 روزه</option>
+                    </select>
+                </div>
+                <!-- Adults and children selection -->
+                <div class="control-group col-md-2">
                     <div class="form-row">
                         <div class="control-group col-md-6">
                             <label>بزرگسال</label>
@@ -68,14 +122,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="control-group col-md-3">
-                    <button class="btn btn-block">جستجو</button>
+
+                <!-- Search button -->
+                <div class="control-group col-md-2">
+                    <button class="btn btn-block" style="margin-top: 28px;"><i class="fa fa-search"></i> جستجو </button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Search Section End -->
-    <!-- Slider Section Start -->
+    <!-- Main Search Section End -->
+    <!-- Image Slider Section Start -->
     <div id="headerSlider" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li data-target="#headerSlider" data-slide-to="0" class="active"></li>
@@ -84,15 +140,15 @@
         </ol>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="~/img/slider/header-slider-1.jpg" alt="Royal Hotel">
+                <img src="~/img/slider/header-slider-1.jpeg" alt="Royal Hotel">
             </div>
 
             <div class="carousel-item">
-                <img src="~/img/slider/header-slider-2.jpg" alt="Royal Hotel">
+                <img src="~/img/slider/header-slider-2.jpeg" alt="Royal Hotel">
             </div>
 
             <div class="carousel-item">
-                <img src="~/img/slider/header-slider-3.jpg" alt="Royal Hotel">
+                <img src="~/img/slider/header-slider-3.jpeg" alt="Royal Hotel">
             </div>
         </div>
 
@@ -105,78 +161,175 @@
             <span class="sr-only">بعدی</span>
         </a>
     </div>
-    <!-- Slider Section End -->
+    <!-- Image Slider Section End -->
 </div>
 <!-- Header Bottom End -->
-<!-- Search Section Start -->
+<!-- Mobile Search Section Start -->
 <div id="search" class="search-home">
     <div class="container">
         <div class="form-row">
-            <div class="control-group col-md-3">
-                <label>ورود</label>
-                <div class="form-group">
-                    <div class="input-group date" id="date-5" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#date-5" />
-                        <div class="input-group-append" data-target="#date-5" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+
+            <div class="control-group col-md-12">
+
+                <!-- Mobile destination filter -->
+                <div class="control-group col-md-6">
+                    <label>مقصد تور</label>
+                    <select class="custom-select">
+                        <option selected value="">همه مقاصد</option>
+                        <option value="tehran">تهران</option>
+                        <option value="mashhad">مشهد</option>
+                        <option value="isfahan">اصفهان</option>
+                        <option value="shiraz">شیراز</option>
+                        <option value="kish">کیش</option>
+                    </select>
+                </div>
+
+                <!-- Mobile tour type filter -->
+                <div class="control-group col-md-6">
+                    <label>نوع تور</label>
+                    <select class="custom-select">
+                        <option selected value="">همه انواع</option>
+                        <option value="air">پروازی</option>
+                        <option value="land">زمینی</option>
+                        <option value="sea">دریایی</option>
+                    </select>
+                </div>
+
+                <!-- Mobile group type filter -->
+                <div class="control-group col-md-6">
+                    <label>نوع گروه</label>
+                    <select class="custom-select">
+                        <option selected value="">همه</option>
+                        <option value="private">خصوصی</option>
+                        <option value="group">گروهی</option>
+                        <option value="family">خانوادگی</option>
+                    </select>
+                </div>
+
+                <!-- Mobile tour duration filter -->
+                <div class="control-group col-md-6">
+                    <label>مدت تور</label>
+                    <select class="custom-select">
+                        <option selected value="">همه مدت‌ها</option>
+                        <option value="1">1 روزه</option>
+                        <option value="2">2 روزه</option>
+                        <option value="3">3 روزه</option>
+                        <option value="4">4 روزه</option>
+                        <option value="5">5 روزه</option>
+                    </select>
+                </div>
+
+                <!-- Mobile check-in date -->
+                <div class="control-group col-md-6">
+                    <label>ورود</label>
+                    <div class="form-group">
+                        <div class="input-group" id="date-3-mobile">
+                            <div class="input-group-append">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                            <input type="text" class="form-control persian-date-input" placeholder=" تاریخ ورود" readonly />
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="control-group col-md-3">
-                <label>خروج</label>
-                <div class="form-group">
-                    <div class="input-group date" id="date-6" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#date-6" />
-                        <div class="input-group-append" data-target="#date-6" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+
+                <!-- Mobile check-out date -->
+                <div class="control-group col-md-6">
+                    <label>خروج</label>
+                    <div class="form-group">
+                        <div class="input-group" id="date-4-mobile">
+                            <div class="input-group-append">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                            <input type="text" class="form-control persian-date-input" placeholder=" تاریخ خروج" readonly />
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="control-group col-md-3">
-                <div class="form-row">
-                    <div class="control-group col-md-6">
-                        <label>بزرگسال</label>
-                        <select class="custom-select">
-                            <option selected>0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
-                    </div>
-                    <div class="control-group col-md-6 control-group-kid">
-                        <label>کودک</label>
-                        <select class="custom-select">
-                            <option selected>0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
+
+                <!-- Mobile adults and children selection -->
+                <div class="control-group col-md-6">
+                    <div class="form-row">
+                        <div class="control-group col-md-6">
+                            <label>بزرگسال</label>
+                            <select class="custom-select">
+                                <option selected>0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                        <div class="control-group col-md-6 control-group-kid">
+                            <label>کودک</label>
+                            <select class="custom-select">
+                                <option selected>0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="control-group col-md-3">
-                <button class="btn btn-block">Search</button>
+
+                <!-- Mobile search button -->
+                <div class="control-group col-md-12">
+                    <button class="btn btn-block" style="margin-top: 15px;"> <i class="fa fa-search"></i> جستجو </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Search Section End -->
+<!-- Mobile Search Section End -->
+<!-- Persian Calendar Modal -->
+<div class="modal fade" id="persianCalendarModal" tabindex="-1" aria-labelledby="persianCalendarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header paleblue-bg text-white">
+                <h5 class="modal-title" id="persianCalendarModalLabel">تقویم فارسی (جلالی)</h5>
+
+            </div>
+            <div class="modal-body">
+                <!-- Today's date display -->
+                <div class="today-date mb-3 p-2 bg-light rounded text-center">
+                    امروز: <span id="todayPersianDate" class="font-weight-bold text-primary">در حال بارگذاری...</span>
+                </div>
+
+                <!-- Selected date display -->
+                <div class="current-date-display text-center mb-3">
+                    تاریخ انتخاب شده: <span id="selectedDateDisplay" class="font-weight-bold text-success">هیچ تاریخی انتخاب نشده است</span>
+                </div>
+
+                <div class="datepicker-container">
+                    <div class="calendar-nav d-flex justify-content-between align-items-center mb-3 p-2 bg-light rounded">
+                        <button id="prevMonth" class="btn btn-sm paleblue">
+                            <i class="fa fa-chevron-right"></i> ماه قبل
+                        </button>
+                        <h5 id="currentMonthYear" class="mb-0 text-dark font-weight-bold">اسفند ۱۴۰۲</h5>
+                        <button id="nextMonth" class="btn btn-sm paleblue">
+                            ماه بعد <i class="fa fa-chevron-left"></i>
+                        </button>
+                    </div>
+                </div>
+                    <!-- Calendar container -->
+                    <div id="calendarContainer" class="mb-4">
+                        <!-- Calendar will be generated here by JavaScript -->
+                        <div class="text-center text-muted py-5">
+                            <p>لطفا صبر کنید...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal action buttons -->
+            <div class="text-center p-3">
+                <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal">بستن</button>
+                <button type="button" class="btn paleblue-bg" id="selectTodayBtn">انتخاب امروز</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Welcome Section Start -->
 <div id="welcome">
     <div class="container">
@@ -528,7 +681,7 @@
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in mi libero. Quisque convallis, enim atvenenatis tincidunt.
             </p>
         </div>
-        <div class="row"style="text-align:right">
+        <div class="row" style="text-align:right">
             <div class="col-12">
                 <div class="booking-form">
                     <div id="success"></div>
@@ -560,54 +713,64 @@
                         <div class="form-row">
                             <div class="control-group col-sm-6">
                                 <label>ورود</label>
-                                <input type="text" class="form-control datetimepicker-input" id="date-1" datatoggle="datetimepicker" data-target="#date-1" placeholder="ورود" required="required" data-validation-required-message="ورود" />
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                    <input type="text" class="form-control persian-date-input" placeholder="انتخاب تاریخ ورود" readonly />
+                                </div>
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="control-group col-sm-6">
                                 <label>خروج</label>
-                                <input type="text" class="form-control datetimepicker-input" id="date-2" datatoggle="datetimepicker" data-target="#date-2" placeholder="خروج" required="required" data-validation-required-message="خروج" />
+                                <div class="input-group">
+                                    <div class="input-group-append">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                    <input type="text" class="form-control persian-date-input" placeholder="انتخاب تاریخ خروج" readonly />
+                                </div>
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="control-group col-sm-6">
                                 <label>بزرگسال</label>
-                                <select class="custom-select" id="adult" style="text-align:left" required="required" data-validation-requiredmessage="گزینه مورد نظر را انتخاب نمایید" />
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
+                                <select class="custom-select" id="adult" style="text-align:left" required="required" data-validation-requiredmessage="گزینه مورد نظر را انتخاب نمایید">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
                                 </select>
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="control-group col-sm-6">
                                 <label>کودک</label>
-                                <select class="custom-select" id="kid" style="text-align:left" required="required" data-validation-requiredmessage="گزینه مورد نظر را انتخاب نمایید" />
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
+                                <select class="custom-select" id="kid" style="text-align:left" required="required" data-validation-requiredmessage="گزینه مورد نظر را انتخاب نمایید">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
                                 </select>
                                 <p class="help-block text-danger"></p>
                             </div>
                         </div>
                         <div class="control-group">
                             <label>درخواست اختصاصی</label>
-                            <input type="text" class="form-control" id="request" placeholder=" "required="required" data-validation-required-message="Please enter your special request" />
+                            <input type="text" class="form-control" id="request" placeholder=" " required="required" data-validation-required-message="Please enter your special request" />
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="button"><button type="submit" id="bookingButton">رزرو</button></div>
