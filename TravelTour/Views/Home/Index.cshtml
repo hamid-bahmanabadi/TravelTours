@@ -3,6 +3,24 @@
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
+ @model List<TourDto>?
+@if (Model!=null)
+{
+    @foreach (var item in Model)
+    {
+        <p>@item.Title</p>
+        <p>@item.Description</p>
+        <p>@item.Capacity</p>
+        <p>@item.Price</p>
+        <p>@item.StartDate</p>
+        <p>@item.TourType</p>
+        <p>@item.Duration</p>
+        <p>@item.CategoryName</p>
+        <p>@item.AgencyName</p>
+        <p>@item.CityName</p>
+    }
+}
+
 
 <div id="header-bottom">
     <!-- Search Section Start -->

@@ -2,6 +2,7 @@
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Service;
+using ServiceContract;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,14 +12,14 @@ namespace TravelTour.Controllers
     [Route("[controller]/[action]")]
     public class TourController : Controller
     {
-       readonly TourService _service;
+        readonly ITourService _service;
 
-        public TourController(TourService service)
+        public TourController(ITourService service)
         {
             _service = service;
         }
 
-        public async Task<IActionResult> Index(int pageNumber=1,int pageSize = 5)
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 5)
         {
             if (pageNumber < 1) pageNumber = 1;
             if (pageSize < 1) pageSize = 5;
@@ -29,18 +30,18 @@ namespace TravelTour.Controllers
             int totalCount = tourList.Count;
             ViewBag.PageCount = (int)Math.Ceiling((decimal)totalCount / pageSize);
             ViewBag.PageNumber = pageNumber;
-            var paged = tourList
+            var paged = tourList.Where(x => x.IsActive && x.IsConfirm)
                 .OrderBy(x => x.StartDate)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
 
-            return View(paged);
+            return View("~/Views/Home/Index.cshtml", paged); ;
         }
         [HttpGet]
         public async Task<IActionResult> Delete(long TourId)
         {
-            var Tour =await _service.GetById(TourId);
+            var Tour = await _service.GetById(TourId);
             if (Tour == null)
             {
                 ViewBag.Errors = "تور مورد نظر یافت نشد";
@@ -52,12 +53,12 @@ namespace TravelTour.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(TourDto tourDto)
         {
-           var result=await _service.Delete(tourDto.Id);
+            var result = await _service.Delete(tourDto.Id);
             if (result.Succided)
             {
                 return RedirectToAction("Index");
             }
-            ViewBag.Errors= result.ErrorMessage;
+            ViewBag.Errors = result.ErrorMessage;
             return View(tourDto);
         }
         [HttpGet]
@@ -74,7 +75,7 @@ namespace TravelTour.Controllers
             {
                 foreach (var item in ModelState.Values)
                 {
-                    foreach (var error  in item.Errors)
+                    foreach (var error in item.Errors)
                     {
                         ErrorList.Add(error.ErrorMessage);
                     }
@@ -82,7 +83,7 @@ namespace TravelTour.Controllers
                 ViewBag.Errors = ErrorList;
                 return View();
             }
-         var result=  await _service.Add(tourDto);
+            var result = await _service.Add(tourDto);
             if (!result.Succided)
             {
                 ViewBag.Errors = result.ErrorMessage;
@@ -94,12 +95,12 @@ namespace TravelTour.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(long TourId)
         {
-           var Tour=await _service.GetById(TourId);
-              if (Tour == null)
+            var Tour = await _service.GetById(TourId);
+            if (Tour == null)
             {
-                ViewBag.Errors= "تور مورد نظر یافت نشد";
+                ViewBag.Errors = "تور مورد نظر یافت نشد";
                 return RedirectToAction("Index");
-                
+
             }
             return View(Tour);
         }

@@ -5,7 +5,7 @@ using Service;
 using ServiceContract;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddScoped<ITourService, TourService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<TravelContext>(option =>
