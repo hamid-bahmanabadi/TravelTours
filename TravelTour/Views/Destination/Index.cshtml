@@ -2,12 +2,18 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-<h1>Index</h1>
+
 
 <p>
-    <a asp-action="Create">Create New</a>
+    
+    <br />
+
+    <a asp-action="Create" class="btn btn-primary text-white">
+        مقصد جدید
+    </a>
 </p>
 <table class="table">
     <thead>
