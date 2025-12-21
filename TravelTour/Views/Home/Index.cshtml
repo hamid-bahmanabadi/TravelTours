@@ -479,7 +479,7 @@ Layout = "~/Views/Shared/_LayoutMain.cshtml";
                                 <h4><span>/ظرفیت</span>@Model[1].Capacity</h4>
                                 <h4><span>/نوع گروه بندی  تور  </span>@Model[1].CategoryName</h4>
                                 <h4><span>/تاریخ شروع  </span>@Model[1].StartDate</h4>
-                                <h4 ><span>/مدت زمانی تور  </span>@Model[1].Duration</h4>
+                                <h4><span>/مدت زمانی تور  </span>@Model[1].Duration</h4>
                                 @*  <ul class="room-size">
                          <li><i class="fa fa-arrow-left"></i>2 عدد تخت تک نفره  </li>
                      </ul> *@
@@ -638,7 +638,11 @@ Layout = "~/Views/Shared/_LayoutMain.cshtml";
                     </div>
                 </div>
             }
-            <h1>توری یافت نشد</h1>
+            else
+            {
+                <h1>توری یافت نشد</h1>
+            }
+
 
         </div>
     </div>

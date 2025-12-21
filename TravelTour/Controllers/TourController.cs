@@ -36,7 +36,7 @@ namespace TravelTour.Controllers
                 .Take(pageSize)
                 .ToList();
 
-            return View(paged); ;
+            return View(paged);
         }
         [HttpGet]
         public async Task<IActionResult> Delete(long TourId)
