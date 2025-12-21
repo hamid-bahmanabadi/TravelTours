@@ -31,12 +31,12 @@ namespace TravelTour.Controllers
             ViewBag.PageCount = (int)Math.Ceiling((decimal)totalCount / pageSize);
             ViewBag.PageNumber = pageNumber;
             var paged = tourList.Where(x => x.IsActive && x.IsConfirm)
-                .OrderBy(x => x.StartDate)
+                .OrderByDescending(x => x.StartDate)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
 
-            return View("~/Views/Home/Index.cshtml", paged); ;
+            return View(paged); ;
         }
         [HttpGet]
         public async Task<IActionResult> Delete(long TourId)

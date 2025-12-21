@@ -1,5 +1,6 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using ServiceContract;
+using System.Diagnostics;
 using TravelTour.Models;
 
 namespace TravelTour.Controllers
@@ -7,15 +8,22 @@ namespace TravelTour.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        readonly ITourService _service;
+       
+        public HomeController(ILogger<HomeController> logger, ITourService service)
         {
             _logger = logger;
+            _service = service;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult>  Index()
         {
-            return View();
+            var tours = await _service.GetAll();
+            var tourList = tours
+                .Where(x => x.IsActive && x.IsConfirm)
+                .OrderByDescending(x => x.StartDate)
+                .Take(5).ToList();
+            return View(tourList);
         }
 
         public IActionResult About()
