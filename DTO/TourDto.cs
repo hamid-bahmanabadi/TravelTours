@@ -54,9 +54,9 @@ namespace DTO
         [Display(Name = "ویژه")]
         public bool IsSpecial { get; set; }
 
-        [StringLength(5000, MinimumLength = 10, ErrorMessage = "توضیحات باید بین 10 تا 5000 کاراکتر باشد")]
+        [StringLength(5000, MinimumLength =0, ErrorMessage = "توضیحات باید بین 0 تا 5000 کاراکتر باشد")]
         [Display(Name = "توضیحات")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required(ErrorMessage = "ظرفیت الزامی است")]
         [Range(1, 1000, ErrorMessage = "ظرفیت باید بین 1 تا 1000 نفر باشد")]

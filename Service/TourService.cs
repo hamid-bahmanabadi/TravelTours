@@ -75,6 +75,7 @@ namespace Service
             var tour = await _travelContext.Tours.FirstOrDefaultAsync(x => x.Id == tourDto.Id);
             if (tour != null)
             {
+                tour.Id= tourDto.Id;
                 tour.Duration = tourDto.Duration;
                 tour.StartDate = tourDto.StartDate;
                 tour.Price = tourDto.Price;
@@ -203,29 +204,33 @@ namespace Service
 
         public async Task<TourDto?> GetById(long id)
         {
-            var tour = await _travelContext.Tours.FirstOrDefaultAsync(t => t.Id == id);
+            var tour = await _travelContext.Tours
+                .Include(x => x.Agency)
+                .Include(x => x.Category)
+                .Include(x => x.City)
+                .FirstOrDefaultAsync(t => t.Id == id);
             if (tour != null)
             {
-                return new TourDto
-                {
-                    Id = tour.Id,
-                    Title = tour.Title,
-                    AgencyId = tour.AgencyId,
-                    CategoryId = tour.CategoryId,
-                    CityId = tour.CityId,
-                    Description = tour.Description,
-                    Price = tour.Price,
-                    Duration = tour.Duration,
-                    IsSpecial = tour.IsSpecial,
-                    StartDate = tour.StartDate,
-                    Capacity = tour.Capacity,
-                    IsActive = tour.IsActive,
-                    IsConfirm = tour.IsConfirm,
-                    TourType = tour.TourType,
-                    AgencyName = tour.Agency.Name,
-                    CategoryName = tour.Category.Name,
-                    CityName = tour.City.Name
-                };
+                TourDto tourDto = new TourDto();
+                tourDto.Id = tour.Id;
+                tourDto.Title = tour.Title;
+                tourDto.AgencyId = tour.AgencyId;
+                tourDto.CategoryId = tour.CategoryId;
+                tourDto.CityId = tour.CityId;
+                tourDto.Description = tour.Description;
+                tourDto.Price = tour.Price;
+                tourDto.Duration = tour.Duration;
+                tourDto.IsSpecial = tour.IsSpecial;
+                tourDto.StartDate = tour.StartDate;
+                tourDto.Capacity = tour.Capacity;
+                tourDto.IsActive = tour.IsActive;
+                tourDto.IsConfirm = tour.IsConfirm;
+                tourDto.TourType = tour.TourType;
+                tourDto.AgencyName = tour.Agency.Name;
+                tourDto.CategoryName = tour.Category.Name;
+                tourDto.CityName = tour.City.Name;
+
+                return tourDto;
             }
             return null;
         }

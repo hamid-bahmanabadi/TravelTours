@@ -1,6 +1,7 @@
 ﻿using DTO;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Service;
 using ServiceContract;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace TravelTour.Controllers
     public class TourController : Controller
     {
         readonly ITourService _service;
+        readonly ICityService _Cityservice;
 
-        public TourController(ITourService service)
+        public TourController(ITourService service, ICityService cityservice)
         {
             _service = service;
+            _Cityservice = cityservice;
         }
 
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 5)
@@ -38,96 +41,6 @@ namespace TravelTour.Controllers
 
             return View(paged);
         }
-        [HttpGet]
-        public async Task<IActionResult> Delete(long TourId)
-        {
-            var Tour = await _service.GetById(TourId);
-            if (Tour == null)
-            {
-                ViewBag.Errors = "تور مورد نظر یافت نشد";
-                return RedirectToAction("Index");
-
-            }
-            return View(Tour);
-        }
-        [HttpPost]
-        public async Task<IActionResult> Delete(TourDto tourDto)
-        {
-            var result = await _service.Delete(tourDto.Id);
-            if (result.Succided)
-            {
-                return RedirectToAction("Index");
-            }
-            ViewBag.Errors = result.ErrorMessage;
-            return View(tourDto);
-        }
-        [HttpGet]
-        public async Task<IActionResult> Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(TourDto tourDto)
-        {
-            List<string> ErrorList = new List<string>();
-            if (!ModelState.IsValid)
-            {
-                foreach (var item in ModelState.Values)
-                {
-                    foreach (var error in item.Errors)
-                    {
-                        ErrorList.Add(error.ErrorMessage);
-                    }
-                }
-                ViewBag.Errors = ErrorList;
-                return View();
-            }
-            var result = await _service.Add(tourDto);
-            if (!result.Succided)
-            {
-                ViewBag.Errors = result.ErrorMessage;
-                return View();
-            }
-            return RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Edit(long TourId)
-        {
-            var Tour = await _service.GetById(TourId);
-            if (Tour == null)
-            {
-                ViewBag.Errors = "تور مورد نظر یافت نشد";
-                return RedirectToAction("Index");
-
-            }
-            return View(Tour);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Edit(TourDto tourDto)
-        {
-            List<string> ErrorList = new List<string>();
-            if (!ModelState.IsValid)
-            {
-                foreach (var item in ModelState.Values)
-                {
-                    foreach (var error in item.Errors)
-                    {
-                        ErrorList.Add(error.ErrorMessage);
-                    }
-                }
-                ViewBag.Errors = ErrorList;
-                return View(tourDto);
-            }
-            var result = await _service.Update(tourDto);
-            if (!result.Succided)
-            {
-                ViewBag.Errors = result.ErrorMessage;
-                return View(tourDto);
-            }
-            return RedirectToAction("Index");
-        }
+        
     }
 }
