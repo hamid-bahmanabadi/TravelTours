@@ -16,24 +16,24 @@
     <link href="~/vendor/slick/slick.css" rel="stylesheet" />
     <link href="~/vendor/slick/slick-theme.css" rel="stylesheet" />
     <link href="~/css/style.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
     <!-- Header Start -->
     <header id="header">
-        <div class="phone"><i class="fa fa-phone"></i>+1 234 567 8900</div>
         <div class="mobile-menu-btn"><i class="fa fa-bars"></i></div>
         <nav class="main-menu top-menu">
             <ul>
                 <li><a asp-controller="Home" asp-action="Index">خانه</a></li>
-                <li><a asp-controller="Tour" asp-action="Index">تورها</a></li>
                 <li><a asp-controller="Home" asp-action="About">درباره ما</a></li>
+                <li><a asp-controller="Home" asp-action="Tours">تورها</a></li>
                 <li><a asp-controller="Home" asp-action="Room">آپارتمان ها</a></li>
                 <li><a asp-controller="Home" asp-action="Amenities">امکانات</a></li>
-                <li><a asp-controller="Home" asp-action="Booking">رزرو</a></li>                
+                <li><a asp-controller="Home" asp-action="Booking">رزرو</a></li>
+                <li><a asp-controller="Home" asp-action="TravelGuide">راهنمای سفر</a></li>
+                <li><a asp-controller="Home" asp-action="Login">ورود</a></li>
                 <li><a asp-controller="Home" asp-action="Contact">تماس با ما</a></li>
-                <li><a asp-controller="Home" asp-action="Index" asp-area="Admin">ورود به پنل ادمین</a></li>
             </ul>
         </nav>
     </header>
@@ -92,9 +92,9 @@
     <footer id="footer">
         <div class="container">
             <div class="social">
-                <a href="#"><i class="fa fa-instagram"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
             </div>
             <ul>
                 <li><a asp-controller="Home" asp-action="Index">خانه</a></li>
@@ -102,7 +102,6 @@
                 <li><a href="#">قوانین</a></li>
                 <li><a asp-controller="Home" asp-action="Contact">تماس با ما</a></li>
             </ul>
-            <p>Copyright &#169; HTML Codex All Rights Reserved.</p>
         </div>
     </footer>
     <!-- Footer End -->
@@ -355,14 +354,14 @@
 
             // Generate calendar HTML
             let calendarHTML = `
-                            <table class="calendar-table">
-                                <thead>
-                                    <tr>
-                                        ${persianDays.map(day => `<th>${day}</th>`).join('')}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                        `;
+                                            <table class="calendar-table">
+                                                <thead>
+                                                    <tr>
+                                                        ${persianDays.map(day => `<th>${day}</th>`).join('')}
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                        `;
 
             let dayCounter = 1;
             let isCurrentMonth = (today.year === year && today.month === month);
@@ -390,10 +389,10 @@
                         }
 
                         calendarHTML += `
-                                        <td class="${cellClass}" data-day="${dayCounter}">
-                                            ${dayCounter}
-                                        </td>
-                                    `;
+                                                        <td class="${cellClass}" data-day="${dayCounter}">
+                                                            ${dayCounter}
+                                                        </td>
+                                                    `;
                         dayCounter++;
                     }
                 }
@@ -407,9 +406,9 @@
             }
 
             calendarHTML += `
-                                </tbody>
-                            </table>
-                        `;
+                                                </tbody>
+                                            </table>
+                                        `;
 
             // Update calendar container
             const calendarContainer = document.getElementById('calendarContainer');
@@ -446,7 +445,7 @@
             }
         }
 
-        // Helper functions for date calculations - اصلاح شده
+
         function getDayOfWeek(year, month, day) {
             // Simplified day of week calculation for Persian calendar
             const baseDate = new Date(2023, 2, 21); // March 21, 2023 = 1 Farvardin 1402

@@ -1,30 +1,33 @@
 ﻿@{
-    ViewData["Title"] = "About Us";
+    ViewData["Title"] = "درباره ما";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
 <!-- About Section Start -->
 <div id="about">
     <div class="container">
-        <div class="section-header">
-            <h2>About Loft City</h2>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in mi libero. Quisque convallis, enimat venenatis tincidunt.
+        <div class="section-header text-right">
+            <h2>درباره تورهای رویایی ایران</h2>
+            <p class="text-right">
+                با ۱۵ سال تجربه در صنعت گردشگری، بهترین خدمات را برای تجربه‌ای فراموش‌نشدنی از زیبایی‌های ایران ارائه می‌دهیم.
             </p>
         </div>
         <div class="row">
             <div class="col-md-6 img-cols">
                 <div class="img-col">
-                    <img class="img-fluid" src="~/img/about/about-1.jpg">
+                    <img class="img-fluid" src="~/img/about/about-1.jpg" alt="تیم تورهای رویایی ایران">
                 </div>
             </div>
             <div class="col-md-6 content-cols">
-                <div class="content-col">
-                    <h3>Lorem ipsum dolor</h3>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam velit orci, tincidunt sit ametarcu eu, iaculis malesuada lectus. Sed non lectus at libero vulputate commodo egestas eu nulla.Praesent pretium nisi eu arcu auctor, id tincidunt mi porta. Sed sodales sagittis elit a mattis Duis cursus ipsum sed placerat hendrerit.
+                <div class="content-col text-right">
+                    <h3>داستان ما</h3>
+                    <p class="text-right">
+                        تورهای رویایی ایران در سال ۱۳۸۸ با یک آرزو و یک رویا متولد شد: "نمایش زیبایی‌های ایران به دنیا".
+                        ما معتقدیم ایران یکی از غنی‌ترین کشورهای جهان از نظر جاذبه‌های گردشگری، فرهنگی و تاریخی است.
+                        از کوه‌های سر به فلک کشیده البرز تا سواحل رویایی خلیج فارس، از کویرهای رمزآلود تا جنگل‌های سرسبز شمال،
+                        ما اینجا هستیم تا این گنجینه‌های بی‌نظیر را به شما معرفی کنیم.
                     </p>
-                    <a href="#">Learn More</a>
+                    <a href="/Home/Tours" class="float-right">مشاهده تورها</a>
                 </div>
             </div>
         </div>
@@ -32,21 +35,24 @@
         <div class="row">
             <div class="col-md-6 img-cols d-block d-md-none">
                 <div class="img-col">
-                    <img class="img-fluid" src="~/img/about/about-2.jpg">
+                    <img class="img-fluid" src="~/img/about/about-2.jpg" alt="ارزش‌های ما">
                 </div>
             </div>
             <div class="col-md-6 content-cols">
-                <div class="content-col">
-                    <h3>Lorem ipsum dolor</h3>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam velit orci, tincidunt sit ametarcu eu, iaculis malesuada lectus. Sed non lectus at libero vulputate commodo egestas eu nulla.Praesent pretium nisi eu arcu auctor, id tincidunt mi porta. Sed sodales sagittis elit a mattis Duis cursus ipsum sed placerat hendrerit.
+                <div class="content-col text-right">
+                    <h3>ارزش‌های ما</h3>
+                    <p class="text-right">
+                        ایمنی و امنیت مسافران اولویت اصلی ماست. تمام تورها تحت پوشش بیمه کامل مسافرتی هستند.
+                        کیفیت خدمات با همکاری بهترین هتل‌ها، رستوران‌ها و راهنمایان تور متخصص تضمین می‌شود.
+                        رضایت شما افتخار ماست و پشتیبانی ۲۴ ساعته در طول سفر ارائه می‌دهیم.
+                        صداقت و شفافیت در قیمت‌گذاری و خدمات، اصل اساسی کار ماست.
                     </p>
-                    <a href="#">Learn More</a>
+                    <a href="/Home/Contact" class="float-right">تماس با ما</a>
                 </div>
             </div>
             <div class="col-md-6 img-cols d-none d-md-block">
                 <div class="img-col">
-                    <img class="img-fluid" src="img/about/about-2.jpg">
+                    <img class="img-fluid" src="~/img/about/about-2.jpg" alt="ارزش‌های ما">
                 </div>
             </div>
         </div>
@@ -54,16 +60,19 @@
         <div class="row">
             <div class="col-md-6 img-cols">
                 <div class="img-col">
-                    <img class="img-fluid" src="img/about/about-3.jpg">
+                    <img class="img-fluid" src="~/img/about/about-3.jpg" alt="خدمات ما">
                 </div>
             </div>
             <div class="col-md-6 content-cols">
-                <div class="content-col">
-                    <h3>Lorem ipsum dolor</h3>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam velit orci, tincidunt sit ametarcu eu, iaculis malesuada lectus. Sed non lectus at libero vulputate commodo egestas eu nulla.Praesent pretium nisi eu arcu auctor, id tincidunt mi porta. Sed sodales sagittis elit a mattis Duis cursus ipsum sed placerat hendrerit.
+                <div class="content-col text-right">
+                    <h3>خدمات ما</h3>
+                    <p class="text-right">
+                        تورهای اختصاصی متناسب با سلیقه و نیاز شما طراحی می‌کنیم.
+                        پشتیبانی  از لحظه رزرو تا بازگشت از سفر ارائه می‌دهیم.
+                        بهترین خدمات را با مناسب‌ترین قیمت‌ها و طرح‌های پرداخت انعطاف‌پذیر فراهم می‌کنیم.
+                        با بیش از ۵۰۰۰ مسافر راضی و ۹۸٪ رضایت مشتری، افتخار می‌کنیم که همراه شما در کشف زیبایی‌های ایران هستیم.
                     </p>
-                    <a href="#">Learn More</a>
+                    <a href="/Home/Amenities" class="float-right"> امکانات</a>
                 </div>
             </div>
         </div>

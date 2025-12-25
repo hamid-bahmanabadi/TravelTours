@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
- 
+
 
     const dateFields = ['TourDatePicker', 'date-1', 'date-2', 'date-3', 'date-4'];
 

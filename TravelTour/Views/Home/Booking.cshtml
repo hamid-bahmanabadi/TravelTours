@@ -1,160 +1,517 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
-    ViewData["Title"] = "Booking";
-}
-@{
-    Layout = "~/Views/Shared/_LayoutMain.cshtml";
-    ViewData["Title"] = "Booking";
+    ViewData["Title"] = "رزرو تور";
 }
 
+<link rel="stylesheet" href="~/css/booking.css" asp-append-version="true" />
 
-<!-- Search Section Start -->
-<div id="search" style="background: #f2f2f2;">
+<div class="booking-page">
     <div class="container">
-        <div class="form-row">
-            <div class="control-group col-md-3">
-                <label>Check-In</label>
-                <div class="form-group">
-                    <div class="input-group date" id="date-3" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#date-3" />
-                        <div class="input-group-append" data-target="#date-3" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        <!-- Booking page header -->
+        <header class="booking-header">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="booking-title">
+                        <i class="fa fa-calendar-check"></i> رزرو تور
+                    </h1>
+                    <p class="booking-subtitle">فرم رزرو آنلاین تورهای گردشگری</p>
+                </div>
+                <div class="col-md-4 text-md-right">
+                    <div class="booking-steps">
+                        <div class="booking-step active">
+                            <span class="booking-step-number">1</span>
+                            <span class="booking-step-text">اطلاعات تور</span>
+                        </div>
+                        <div class="booking-step">
+                            <span class="booking-step-number">2</span>
+                            <span class="booking-step-text">اطلاعات مسافر</span>
+                        </div>
+                        <div class="booking-step">
+                            <span class="booking-step-number">3</span>
+                            <span class="booking-step-text">پرداخت</span>
                         </div>
                     </div>
                 </div>
             </div>
+        </header>
+        <!-- Selected tour information -->
+        <div class="booking-summary-card">
+            <div class="row">
+                <!-- Price on the right side -->
+                <div class="col-lg-4">
+                    <div class="booking-price-section">
+                        <div class="booking-price-header">
+                            <h5>قیمت نهایی</h5>
+                            <span class="booking-price-currency">تومان</span>
+                        </div>
+                        <div class="booking-price-amount">
+                            <span id="tourPrice">---</span>
+                        </div>
+                        <div class="booking-price-details">
+                            <div class="price-row">
+                                <span>قیمت پایه:</span>
+                                <span id="basePrice">---</span>
+                            </div>
+                            <div class="price-row">
+                                <span>مالیات:</span>
+                                <span id="taxAmount">---</span>
+                            </div>
+                            <div class="price-row total">
+                                <span>مبلغ قابل پرداخت:</span>
+                                <span id="totalPrice">---</span>
+                            </div>
+                        </div>
+                        <div class="booking-discount">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="کد تخفیف" id="discountCode">
+                                <div class="input-group-append">
+                                    <button class="btn btn-apply-discount" id="applyDiscount">
+                                        اعمال
+                                    </button>
+                                </div>
+                            </div>
+                            <small class="text-muted mt-2 d-block">در صورت داشتن کد تخفیف وارد کنید</small>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="control-group col-md-3">
-                <label>Check-Out</label>
-                <div class="form-group">
-                    <div class="input-group date" id="date-4" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#date-4" />
-                        <div class="input-group-append" data-target="#date-4" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                <!-- Tour information on the left side -->
+                <div class="col-lg-8">
+                    <div class="booking-tour-info">
+                        <h4 id="selectedTourTitle">---</h4>
+                        <div class="booking-tour-details">
+                            <div class="booking-detail-item">
+                                <i class="fa fa-map-marker-alt"></i>
+                                <span id="selectedCity">---</span>
+                            </div>
+                            <div class="booking-detail-item">
+                                <i class="fa fa-calendar"></i>
+                                <span id="selectedDuration">---</span>
+                            </div>
+                            <div class="booking-detail-item">
+                                <i id="tourTypeIcon" class="fa fa-plane"></i>
+                                <span id="selectedTransport">---</span>
+                            </div>
+                            <div class="booking-detail-item">
+                                <i class="fa fa-users"></i>
+                                <span id="selectedGroupType">---</span>
+                            </div>
+                            <div class="booking-detail-item">
+                                <i class="fa fa-user-friends"></i>
+                                <span id="selectedPassengers">---</span>
+                            </div>
+                        </div>
+                        <div class="booking-features">
+                            <h5 class="services-title-right">خدمات شامل تور:</h5>
+                            <ul id="tourServices">
+                                <!-- Services will be added dynamically -->
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="control-group col-md-3">
-                <div class="form-row">
-                    <div class="control-group col-md-6">
-                        <label>Adult</label>
-                        <select class="custom-select">
-                            <option selected>0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
+        <!-- Booking form -->
+        <div class="booking-form-section">
+            <form id="bookingForm">
+                <!-- Step 1: Main passenger information and tour specifications -->
+                <div class="booking-form-step active" id="step1">
+                    <h4 class="form-step-title">
+                        <i class="fa fa-user-circle"></i> اطلاعات مسافر اصلی و مشخصات تور
+                    </h4>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="firstName">
+                                    <i class="fa fa-user"></i> نام
+                                </label>
+                                <input type="text" class="form-control" id="firstName" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="lastName">
+                                    <i class="fa fa-user"></i> نام خانوادگی
+                                </label>
+                                <input type="text" class="form-control" id="lastName" required>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="control-group col-md-6">
-                        <label>Kid</label>
-                        <select class="custom-select">
-                            <option selected>0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nationalCode">
+                                    <i class="fa fa-id-card"></i> کد ملی
+                                </label>
+                                <input type="text" class="form-control" id="nationalCode" required maxlength="10">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="phoneNumber">
+                                    <i class="fa fa-phone"></i> شماره تماس
+                                </label>
+                                <input type="tel" class="form-control" id="phoneNumber" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tour details -->
+                    <div class="tour-details-section">
+                        <h5><i class="fa fa-info-circle"></i> جزئیات تور</h5>
+
+                        <div class="row">
+                            <!-- Tour days -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="tourDays">
+                                        <i class="fa fa-calendar-day"></i> مدت تور (روز)
+                                    </label>
+                                    <select class="form-control" id="tourDays" required>
+                                        <option value="">انتخاب کنید</option>
+                                        <option value="1">۱ روزه</option>
+                                        <option value="2">۲ روزه</option>
+                                        <option value="3">۳ روزه</option>
+                                        <option value="4">۴ روزه</option>
+                                        <option value="5">۵ روزه</option>
+                                        <option value="6">۶ روزه</option>
+                                        <option value="7">۷ روزه</option>
+                                        <option value="8">۸ روزه</option>
+                                        <option value="9">۹ روزه</option>
+                                        <option value="10" selected>۱۰ روزه</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Group type -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="groupType">
+                                        <i class="fa fa-users"></i> نوع گروه
+                                    </label>
+                                    <select class="form-control" id="groupType" required>
+                                        <option value="">انتخاب کنید</option>
+                                        <option value="group">گروهی</option>
+                                        <option value="private">خصوصی</option>
+                                        <option value="family">خانوادگی</option>
+                                        <option value="couple">زوج</option>
+                                        <option value="single">تک نفره</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Transportation type -->
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="transportType">
+                                        <i class="fa fa-shuttle-van"></i> نوع حمل و نقل
+                                    </label>
+                                    <select class="form-control" id="transportType" required>
+                                        <option value="">انتخاب کنید</option>
+                                        <option value="air">هوایی</option>
+                                        <option value="land">زمینی</option>
+                                        <option value="sea">دریایی</option>
+                                        <option value="mixed">ترکیبی</option>
+                                    </select>
+                                    <small id="seaTransportHint" class="form-text text-muted d-none">
+                                        حمل دریایی فقط برای تور کیش فعال است
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Number of people -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>
+                                        <i class="fa fa-user-friends"></i> تعداد نفرات
+                                    </label>
+                                    <div class="passenger-count-selector">
+                                        <div class="passenger-options">
+                                            <div class="passenger-option" data-count="1-3">
+                                                <input type="radio" id="passengers1_3" name="passengers" value="1-3">
+                                                <label for="passengers1_3">
+                                                    <span class="option-title">۱ تا ۳ نفر</span>
+                                                    <span class="option-price" id="price1_3">---</span>
+                                                </label>
+                                            </div>
+                                            <div class="passenger-option" data-count="4-6">
+                                                <input type="radio" id="passengers4_6" name="passengers" value="4-6" checked>
+                                                <label for="passengers4_6">
+                                                    <span class="option-title">۴ تا ۶ نفر</span>
+                                                    <span class="option-price" id="price4_6">---</span>
+                                                </label>
+                                            </div>
+                                            <div class="passenger-option" data-count="7-10">
+                                                <input type="radio" id="passengers7_10" name="passengers" value="7-10">
+                                                <label for="passengers7_10">
+                                                    <span class="option-title">۷ تا ۱۰ نفر</span>
+                                                    <span class="option-price" id="price7_10">---</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="email">
+                                    <i class="fa fa-envelope"></i> ایمیل
+                                </label>
+                                <input type="email" class="form-control" id="email" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="birthDate">
+                                    <i class="fa fa-birthday-cake"></i> تاریخ تولد
+                                </label>
+                                <input type="text" class="form-control" id="birthDate" placeholder="۱۳۷۰/۰۱/۰۱">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="address">
+                                    <i class="fa fa-home"></i> آدرس
+                                </label>
+                                <textarea class="form-control" id="address" rows="2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="booking-form-navigation">
+                        <button type="button" class="btn btn-next-step" data-next="step2">
+                            ادامه <i class="fa fa-arrow-left"></i>
+                        </button>
                     </div>
                 </div>
-            </div>
 
-            <div class="control-group col-md-3">
-                <button class="btn btn-block">Search</button>
+                <!-- Step 2: Companions information -->
+                <div class="booking-form-step" id="step2">
+                    <h4 class="form-step-title">
+                        <i class="fa fa-users"></i> اطلاعات همراهان
+                    </h4>
+
+                    <div class="booking-companions">
+                        <div class="companion-count-selector">
+                            <label>تعداد همراهان:</label>
+                            <div class="companion-counter">
+                                <button type="button" class="btn-counter minus" id="decreaseCompanion">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                                <span id="companionCount">0</span>
+                                <button type="button" class="btn-counter plus" id="increaseCompanion">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="companions-container" id="companionsContainer">
+                            <!-- Companions will be added dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="booking-form-navigation">
+                        <button type="button" class="btn btn-prev-step" data-prev="step1">
+                            <i class="fa fa-arrow-right"></i> بازگشت
+                        </button>
+                        <button type="button" class="btn btn-next-step" data-next="step3">
+                            ادامه <i class="fa fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Payment information and final summary -->
+                <div class="booking-form-step" id="step3">
+                    <h4 class="form-step-title">
+                        <i class="fa fa-credit-card"></i> اطلاعات پرداخت و خلاصه نهایی
+                    </h4>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Tour information from booking future -->
+                            <div class="booking-tour-future-info">
+                                <h5>اطلاعات تور :</h5>
+                                <div id="tourFutureInfo">
+                                    <div class="loading-text">
+                                        در حال دریافت اطلاعات تور...
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="booking-payment-methods">
+                                <h6>روش پرداخت:</h6>
+                                <div class="payment-options">
+                                    <div class="payment-option">
+                                        <input type="radio" id="paymentOnline" name="paymentMethod" value="online" checked>
+                                        <label for="paymentOnline">
+                                            <i class="fa fa-globe"></i>
+                                            <span>پرداخت آنلاین</span>
+                                        </label>
+                                    </div>
+                                    <div class="payment-option">
+                                        <input type="radio" id="paymentBank" name="paymentMethod" value="bank">
+                                        <label for="paymentBank">
+                                            <i class="fa fa-university"></i>
+                                            <span>پرداخت از طریق بانک</span>
+                                        </label>
+                                    </div>
+                                    <div class="payment-option">
+                                        <input type="radio" id="paymentWallet" name="paymentMethod" value="wallet">
+                                        <label for="paymentWallet">
+                                            <i class="fa fa-wallet"></i>
+                                            <span>کیف پول الکترونیکی</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="booking-terms">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="termsCheck" required>
+                                    <label class="form-check-label" for="termsCheck">
+                                        <i class="fa fa-check-square "></i>
+                                        <a href="#" data-toggle="modal" data-target="#termsModal">قوانین و شرایط</a> را مطالعه کرده‌ام و موافقم
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- Companions information summary -->
+                            <div class="companions-summary">
+                                <h5><i class="fa fa-user-friends"></i> اطلاعات همراهان:</h5>
+                                <div id="companionsSummaryList">
+                                    <div class="empty-summary">
+                                        <i class="fa fa-users"></i>
+                                        <p>هنوز همراهی اضافه نشده است</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Final booking summary -->
+                            <div class="booking-final-summary">
+                                <h5><i class="fa fa-receipt"></i> خلاصه رزرو:</h5>
+                                <div class="summary-item">
+                                    <span>تور:</span>
+                                    <span id="summaryTour">---</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>شهر:</span>
+                                    <span id="summaryCity">---</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>مدت:</span>
+                                    <span id="summaryDuration">---</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>نوع گروه:</span>
+                                    <span id="summaryGroupType">---</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>حمل و نقل:</span>
+                                    <span id="summaryTransport">---</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>تعداد کل مسافرین:</span>
+                                    <span id="summaryTotalPassengers">1 نفر</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>تعداد همراهان:</span>
+                                    <span id="summaryCompanionsCount">0 نفر</span>
+                                </div>
+                                <div class="summary-item total">
+                                    <span>مبلغ نهایی:</span>
+                                    <span id="summaryFinalPrice">--- تومان</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add this code at the end of booking-summary-card or before the previous buttons -->
+                    <!-- Add this code at the end of booking-actions -->
+                    <div class="booking-actions mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="confirmBookingButton">
+                            <i class="fa fa-check-circle"></i> تکمیل رزرو و مشاهده قیمت
+                        </button>
+
+                        <button type="button" class="btn btn-success btn-lg btn-block d-none mt-3" id="completePaymentButton">
+                            <i class="fa fa-credit-card"></i> تکمیل پرداخت
+                        </button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Side buttons -->
+        <div class="booking-side-buttons">
+            <button class="btn btn-side btn-save-draft">
+                <i class="fa fa-save"></i> ذخیره پیش‌نویس
+            </button>
+            <button class="btn btn-side btn-print">
+                <i class="fa fa-print"></i> چاپ اطلاعات
+            </button>
+            <button class="btn btn-side btn-help">
+                <i class="fa fa-question-circle"></i> راهنما
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Terms and conditions modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content services-title-right">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fa fa-file-contract"></i> قوانین و شرایط رزرو تور
+                </h5>
+
+            </div>
+            <div class="modal-body">
+                <div class="terms-content">
+                    <h6>۱. شرایط رزرو:</h6>
+                    <ul>
+                        <li>رزرو تور پس از پرداخت کامل هزینه قطعی می‌شود</li>
+                        <li>حداقل سن برای مسافرت ۲ سال می‌باشد</li>
+                        <li>ارائه گذرنامه معتبر برای تورهای خارجی الزامی است</li>
+                    </ul>
+
+                    <h6>۲. شرایط کنسلی:</h6>
+                    <ul>
+                        <li>کنسلی تا ۳۰ روز قبل از حرکت: ۱۰% جریمه</li>
+                        <li>کنسلی ۱۵-۳۰ روز قبل: ۳۰% جریمه</li>
+                        <li>کنسلی ۷-۱۵ روز قبل: ۵۰% جریمه</li>
+                        <li>کنسلی کمتر از ۷ روز: ۱۰۰% جریمه</li>
+                    </ul>
+
+                    <h6>۳. مدارک مورد نیاز:</h6>
+                    <ul>
+                        <li>کپی کارت ملی برای تورهای داخلی</li>
+                        <li>گذرنامه با حداقل ۶ ماه اعتبار برای تورهای خارجی</li>
+                        <li>عکس ۴*۳ رنگی جدید</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">متوجه شدم</button>
             </div>
         </div>
     </div>
 </div>
-<!-- Search Section End -->
-<!-- Booking Section Start -->
-<div id="booking">
-    <div class="container">
-        <div class="section-header">
-            <h2>Room Booking</h2>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in mi libero. Quisque convallis, enimat venenatis tincidunt.
-            </p>
-        </div>
 
-        <div class="row">
-            <div class="col-12">
-                <div class="booking-form">
-                    <div id="success"></div>
-
-                    <form name="sentMessage" id="bookingForm" novalidate="novalidate">
-
-                        <div class="form-row">
-                            <div class="control-group col-sm-6">
-                                <label>First Name</label>
-                                <input type="text" class="form-control" id="fname" placeholder="E.g. John" required="required" data-validation-required-message="Please enter first name" />
-                                <p class="help-block text-danger"></p>
-                            </div>
-
-                            <div class="control-group col-sm-6">
-                                <label>Last Name</label>
-                                <input type="text" class="form-control" id="lname" placeholder="E.g. Sina" required="required" data-validation-required-message="Please enter last name" />
-                                <p class="help-block text-danger"></p>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="control-group col-sm-6">
-                                <label>Mobile</label>
-                                <input type="text" class="form-control" id="mobile" placeholder="E.g. +1 234 567 8900" required="required" data-validation-required-message="Please enter your mobile number" />
-                                <p class="help-block text-danger"></p>
-                            </div>
-
-                            <div class="control-group col-sm-6">
-                                <label>Email</label>
-                                <input type="email" class="form-control" id="email" placeholder="E.g. email@example.com" required="required" data-validation-required-message="Please enter your email" />
-                                <p class="help-block text-danger"></p>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="control-group col-sm-6">
-                                <label>Check-In</label>
-                                <input type="text" class="form-control datetimepicker-input" id="date-1" data-toggle="datetimepicker" data-target="#date-1" placeholder="E.g. MM/DD/YYYY" required="required" data-validation-required-message="Please enter date" />
-                                <p class="help-block text-danger"></p>
-                            </div>
-
-                            <div class="control-group col-sm-6">
-                                <label>Check-Out</label>
-                                <input type="text" class="form-control datetimepicker-input" id="date-2" data-toggle="datetimepicker" data-target="#date-2" placeholder="E.g. MM/DD/YYYY" required="required" data-validation-required-message="Please enter date" />
-                                <p class="help-block text-danger"></p>
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label>Special Request</label>
-                            <input type="text" class="form-control" id="request" placeholder="E.g. Special Request" required="required" data-validation-required-message="Please enter your special request" />
-                            <p class="help-block text-danger"></p>
-                        </div>
-
-                        <div class="button">
-                            <button type="submit" id="bookingButton">Book Now</button>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-<!-- Booking Section End -->
+@section Scripts {
+    <script src="~/js/booking.js" asp-append-version="true"></script>
+}

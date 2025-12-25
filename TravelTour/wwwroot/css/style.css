@@ -6,9 +6,14 @@
     box-sizing: border-box;
 }
 
+:root {
+    --tour-primary: #00CED1;
+}
+
+
 body {
     color: #666;
-    font-family: 'Raleway', sans-serif;
+    font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 400;
     background: #ffffff;
 }
@@ -40,7 +45,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
     color: #666;
@@ -64,8 +69,8 @@ h6 {
 .back-to-top {
     position: fixed;
     display: none;
-    background: #222222;
-    color: #00CED1;
+    color: #222222;
+    background: #00CED1;
     width: 44px;
     height: 44px;
     text-align: center;
@@ -79,8 +84,8 @@ h6 {
 }
 
     .back-to-top:hover {
-        color: #222222;
-        background: #00CED1;
+        background: #222222;
+        color: #00CED1;
     }
 
     .back-to-top i {
@@ -131,7 +136,7 @@ h6 {
             }
 
             .main-menu ul li a {
-                font-family: 'Roboto Slab', serif;
+                font-family: 'Vazir', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                 color: #00CED1;
                 text-decoration: none;
                 text-transform: uppercase;
@@ -311,7 +316,7 @@ h6 {
 
 #search input {
     box-shadow: none;
-   border-radius: 30px 0 0 30px;
+    border-radius: 30px 0 0 30px;
 }
 
 #search select,
@@ -373,10 +378,12 @@ h6 {
     cursor: pointer;
     background-color: white !important;
 }
+
 .paleblue-bg {
     background-color: #00CED1 !important;
     color: white !important;
 }
+
 .paleblue-color {
     color: #00CED1;
 }
@@ -389,6 +396,7 @@ h6 {
     background-color: #00CED1;
     color: white;
 }
+
 .paleblue {
     color: #00CED1;
     border: 1px solid #00CED1;
@@ -413,6 +421,7 @@ h6 {
         background-color: #00CED1;
         color: white;
     }
+
 .calendar-table {
     width: 100%;
     border-collapse: collapse;
@@ -593,7 +602,7 @@ h6 {
     right: 0;
     top: 0;
     height: 100%;
-    background: ;
+    background:;
     border: none;
     z-index: 10;
     color: #00CED1;
@@ -666,7 +675,7 @@ h6 {
         height: 1px;
         bottom: 0;
         left: calc(50% - 50px);
-        background: #666;
+        background: #00CED1;
         z-index: 99;
     }
 
@@ -675,6 +684,8 @@ h6 {
         font-weight: 700;
         letter-spacing: 1px;
         margin-bottom: 15px;
+        color: #00CED1;
+        text-align: center; /* تیتر وسط‌چین */
     }
 
     .section-header p {
@@ -682,7 +693,9 @@ h6 {
         font-size: 18px;
         font-weight: 300;
         line-height: 25px;
+        text-align: center;
     }
+
 
 @media (max-width: 767.98px) {
     .section-header h2 {
@@ -866,7 +879,10 @@ h6 {
 
     #about .content-col h3 {
         font-weight: 700;
-        margin-bottom: 15px;
+        color: var(--tour-primary);
+        border-bottom: 2px solid var(--tour-primary);
+        padding-bottom: 15px;
+        margin-bottom: 30px;
     }
 
 @media (max-width: 767.98px) {
@@ -888,20 +904,20 @@ h6 {
 
 #about .content-col a {
     display: inline-block;
-    background: #222222;
     font-weight: 400;
-    color: #00CED1;
     padding: 8px 30px;
     border-radius: 30px;
+    background: #00CED1;
+    color: #fff;
 }
 
     #about .content-col a:hover {
-        background: #00CED1;
-        color: #222222;
+        background: #222222;
+        color: #00CED1;
     }
 
     #about .content-col a:focus {
-        color: #fff;
+        color: #00CED1;
     }
 
 /* ================================================= */
@@ -1264,97 +1280,6 @@ input::-ms-input-placeholder {
 }
 
 /* ================================================= */
-/* ----------------- Booking Style ----------------- */
-/* ================================================= */
-
-#booking {
-    position: relative;
-    padding: 45px 0 60px 0;
-}
-
-    #booking .container {
-        max-width: 990px;
-    }
-
-    #booking label {
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-    #booking .form-control,
-    #booking .custom-select {
-        height: 35px;
-        border: 1px solid #ddd;
-        border-radius: 30px;
-        line-height: 24px;
-        padding: 5px 20px;
-        background-color: transparent;
-        color: #222222;
-        font-size: 16px;
-        font-weight: 200;
-    }
-
-        #booking .form-control:focus,
-        #booking .custom-select:focus {
-            border-color: #00CED1;
-            box-shadow: none;
-            outline: 0 none;
-        }
-
-    #booking .button button {
-        display: inline-block;
-        font-size: 16px;
-        color: #00CED1;
-        line-height: 24px;
-        padding: 10px 30px 8px 30px;
-        border-radius: 30px;
-        background: #222222;
-        border: none;
-        font-weight: 400;
-        cursor: pointer;
-        transition: all .3s;
-    }
-
-        #booking .button button:hover {
-            color: #222222;
-            background: #00CED1;
-        }
-
-    #booking .help-block ul {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-    }
-
-/* ================================================= */
-/* ----------------- Call Us Style ----------------- */
-/* ================================================= */
-
-#call-us {
-    position: relative;
-    text-align: center;
-    padding: 45px 0 60px 0;
-    background: #f2f2f2;
-}
-
-    #call-us a {
-        font-family: 'Roboto Slab', serif;
-        display: inline-block;
-        padding: 15px 30px;
-        background: #222222;
-        color: #00CED1;
-        font-size: 28px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        border-radius: 40px;
-    }
-
-        #call-us a:hover {
-            color: #222222;
-            background: #00CED1;
-        }
-
-/* ================================================= */
 /* ------------------ Contact Style ---------------- */
 /* ================================================= */
 
@@ -1547,6 +1472,7 @@ input::-ms-input-placeholder {
         background: #00CED1;
     }
 
+
 /* ================================================= */
 /* ------------------ Footer Style ----------------- */
 /* ================================================= */
@@ -1595,7 +1521,7 @@ input::-ms-input-placeholder {
     }
 
         #footer ul li {
-            font-family: 'Roboto Slab', serif;
+            font-family: 'vazir', serif;
             font-weight: 400;
             display: inline-block;
             list-style-type: none;
@@ -1612,134 +1538,3 @@ input::-ms-input-placeholder {
         margin: 0;
         font-size: 18px;
     }
-
-
-
-
-
-
-/* Add at the end of file */
-
-/* ================================================= */
-/* ---------- Tour Create Form CSS Styles ---------- */
-/* ================================================= */
-
-.form-section {
-    background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.section-title {
-    font-weight: bold;
-    color: #495057;
-    margin-bottom: 15px;
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 10px;
-}
-
-.form-label {
-    font-weight: 600;
-    color: #495057;
-    margin-bottom: 8px;
-    display: block;
-}
-
-.form-control,
-.form-select {
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 10px 15px;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
-}
-
-    .form-control:focus,
-    .form-select:focus {
-        border-color: #007bff;
-        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-        outline: none;
-    }
-
-.btn-success {
-    background-color: #28a745;
-    border-color: #28a745;
-    color: #ffffff;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-    .btn-success:hover {
-        background-color: #218838;
-        border-color: #1e7e34;
-        color: #ffffff;
-    }
-
-/* RTL Checkbox Styling for Create Form */
-.checkbox-rtl {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-    .checkbox-rtl input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-        margin-left: 10px;
-        margin-right: 0;
-        cursor: pointer;
-        flex-shrink: 0;
-    }
-
-    .checkbox-rtl label {
-        cursor: pointer;
-        margin-bottom: 0;
-        font-weight: 500;
-        margin-right: 0;
-    }
-
-/* Form validation messages */
-.text-danger {
-    color: #dc3545;
-    font-size: 12px;
-    margin-top: 5px;
-    display: block;
-}
-
-.alert-danger {
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
-    color: #721c24;
-    padding: 12px 20px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-}
-
-/* Responsive for Tour Create Form */
-@media (max-width: 767.98px) {
-    .form-section {
-        padding: 15px;
-        margin-bottom: 15px;
-    }
-
-    .section-title {
-        font-size: 16px;
-        margin-bottom: 12px;
-    }
-
-    .form-label {
-        font-size: 13px;
-    }
-
-    .form-control,
-    .form-select {
-        font-size: 13px;
-        padding: 8px 12px;
-    }
-
-    .btn-lg {
-        padding: 8px 20px;
-        font-size: 14px;
-    }
-}

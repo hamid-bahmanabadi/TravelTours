@@ -1,0 +1,401 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    ViewData["Title"] = "تورهای ویژه";
+}
+
+<link rel="stylesheet" href="~/css/tours.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<div class="tours-page">
+    <header class="tour-header">
+        <div class="container">
+            <h1 class="tour-floating animate__animated animate__fadeInDown tour-pulse">تورهای رویایی ایران</h1>
+            <p class="lead animate__animated animate__fadeInUp animate__delay-1s text-white">
+                تجربه‌ای فراموش‌نشدنی در زیباترین شهرهای ایران با بهترین خدمات و قیمت‌ها
+            </p>
+            <div class="mt-4 animate__animated animate__fadeInUp animate__delay-2s">
+                <a href="#tours" class="tour-btn-primary btn-lg">
+                    <i class="fa fa-plane"></i> مشاهده تورها
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container" id="tours">
+        <!-- Filters section -->
+        <div class="tour-filters animate__animated animate__fadeIn">
+            <div class="filter-buttons">
+                <button class="tour-filter-btn btn active" data-filter="all">
+                    <i class="fa fa-globe"></i> همه تورها
+                </button>
+                <button class="tour-filter-btn btn" data-filter="cheap">
+                    <i class="fa fa-money"></i> ارزان‌ترین‌ها
+                </button>
+                <button class="tour-filter-btn btn" data-filter="expensive">
+                    <i class="fa fa-diamond"></i> گران‌ترین‌ها
+                </button>
+                <button class="tour-filter-btn btn" data-filter="plane">
+                    <i class="fa fa-plane"></i> تورهای هوایی
+                </button>
+                <button class="tour-filter-btn btn" data-filter="train">
+                    <i class="fa fa-train"></i> تورهای زمینی
+                </button>
+                <button class="tour-filter-btn btn" data-filter="sea">
+                    <i class="fa fa-ship"></i> تورهای دریایی
+                </button>
+                <button class="tour-filter-btn btn" data-filter="combo">
+                    <i class="fa fa-random"></i> تورهای ترکیبی
+                </button>
+                <button class="tour-filter-btn btn" data-filter="favorites" id="favoritesFilterBtn">
+                    <i class="fa fa-star"></i> علاقه‌مندی‌ها
+                    <span class="badge badge-light ml-2 favorites-count">0</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tour cards -->
+        <div class="row" id="tourContainer">
+            <!-- Tehran Tour -->
+            <div class="col-lg-4 col-md-6 tour-item" data-price="2850000" data-type="plane train" data-category="expensive" data-cities="tehran">
+                <div class="tour-card animate__animated animate__fadeInUp">
+                    <span class="tour-city-badge">تهران</span>
+                    <button class="tour-favorite-btn" data-city="tehran">
+                        <i class="fa fa-star"></i>
+                    </button>
+                    <div class="tour-image-container" style="background-image: url('/img/imgcities/t2.webp')">
+                        <div class="tour-image-overlay">
+                            <h4>پایتخت طلایی</h4>
+                            <p>۱۰ روزه با پرواز VIP</p>
+                        </div>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3 class="tour-title">تور طلایی تهران</h3>
+                        <ul class="tour-features">
+                            <li>بازدید از برج میلاد و برج آزادی</li>
+                            <li>گردش در کاخ گلستان و سعدآباد</li>
+                            <li>بازداد از بازار بزرگ تهران و پاساژهای مدرن</li>
+                            <li>تور غذای ایرانی در بهترین رستوران‌ها</li>
+                            <li>اقامت در هتل ۵ ستاره اسپیناس پالاس</li>
+                        </ul>
+
+                        <div class="tour-price-section">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="tour-price-badge sea">تور هوایی یا زمینی</span>
+                                <span class="tour-price-badge expensive">گران‌ترین</span>
+                            </div>
+                            <div class="tour-price-comparison">
+                                <div class="tour-price-item">
+                                    <div class="tour-price-amount">
+                                        <small>از</small> ۲,۸۵۰,۰۰۰
+                                    </div>
+                                    <div class="tour-price-note">تومان (۱۰ روزه)</div>
+                                </div>
+                                <div class="tour-price-item">
+                                    <div class="tour-price-amount">
+                                        <small>از</small> ۱,۹۵۰,۰۰۰
+                                    </div>
+                                    <div class="tour-price-note">تومان (قطار - ۷ روزه)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4 flex-wrap">
+                            <a href="/Home/Booking?city=tehran&type=plane" class="tour-btn-primary">
+                                <i class="fa fa-calendar-check"></i> رزرو تور
+                            </a>
+                            <a href="/Home/TravelGuide#tehran" class="tour-btn-outline tour-guide-btn" data-city="tehran">
+                                <i class="fa fa-map"></i> راهنمای سفر
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mashhad Tour -->
+            <div class="col-lg-4 col-md-6 tour-item" data-price="1950000" data-type="plane train" data-category="cheap" data-cities="mashhad">
+                <div class="tour-card animate__animated animate__fadeInUp animate__delay-1s">
+                    <span class="tour-city-badge">مشهد</span>
+                    <button class="tour-favorite-btn" data-city="mashhad">
+                        <i class="fa fa-star"></i>
+                    </button>
+                    <div class="tour-image-container" style="background-image: url('/img/imgcities/m1.webp')">
+                        <div class="tour-image-overlay">
+                            <h4>شهر مقدس</h4>
+                            <p>زیارتی و سیاحتی</p>
+                        </div>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3 class="tour-title">تور معنوی مشهد</h3>
+                        <ul class="tour-features">
+                            <li>زیارت حرم امام رضا (ع)</li>
+                            <li>بازداد از پارک‌های آبی و کوهسنگی</li>
+                            <li>تور خرید در بازار رضا</li>
+                            <li>بازداد از طرقبه و شاندیز</li>
+                            <li>اقامت در هتل‌های نزدیک حرم</li>
+                        </ul>
+
+                        <div class="tour-price-section">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="tour-price-badge sea">تور هوایی یا زمینی</span>
+                                <span class="tour-price-badge cheap">ارزان‌ترین</span>
+                            </div>
+                            <div class="tour-price-comparison">
+                                <div class="tour-price-item">
+                                    <div class="tour-price-amount">
+                                        <small>از</small> ۱,۲۵۰,۰۰۰
+                                    </div>
+                                    <div class="tour-price-note">تومان (۷ روزه)</div>
+                                </div>
+                                <div class="tour-price-item">
+                                    <div class="tour-price-amount">
+                                        <small>از</small> ۹۵۰,۰۰۰
+                                    </div>
+                                    <div class="tour-price-note">تومان (قطار - ۵ روزه)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4 flex-wrap">
+                            <a href="/Home/Booking?city=mashhad&type=plane" class="tour-btn-primary">
+                                <i class="fa fa-calendar-check"></i> رزرو تور
+                            </a>
+                            <a href="/Home/TravelGuide#mashhad" class="tour-btn-outline tour-guide-btn" data-city="mashhad">
+                                <i class="fa fa-map"></i> راهنمای سفر
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shiraz Tour -->
+            <div class="col-lg-4 col-md-6 tour-item" data-price="2350000" data-type="plane train" data-category="expensive" data-cities="shiraz">
+                <div class="tour-card animate__animated animate__fadeInUp animate__delay-2s">
+                    <span class="tour-city-badge">شیراز</span>
+                    <button class="tour-favorite-btn" data-city="shiraz">
+                        <i class="fa fa-star"></i>
+                    </button>
+                    <div class="tour-image-container" style="background-image: url('/img/imgcities/s1.webp')">
+                        <div class="tour-image-overlay">
+                            <h4>شهر شعر و گل</h4>
+                            <p>فرهنگی و تاریخی</p>
+                        </div>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3 class="tour-title">تور فرهنگی شیراز</h3>
+                        <ul class="tour-features">
+                            <li>بازداد از تخت جمشید و پاسارگاد</li>
+                            <li>گردش در باغ ارم و نارنجستان</li>
+                            <li>زیارت حرم شاهچراغ (ع)</li>
+                            <li>تور موزه‌های تاریخی شیراز</li>
+                            <li>اقامت در هتل‌های باغی شیراز</li>
+                        </ul>
+
+                        <div class="tour-price-section">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="tour-price-badge sea">تور هوایی یا زمینی</span>
+                                <span class="tour-price-badge expensive">گران‌ترین</span>
+                            </div>
+                            <div class="tour-price-comparison">
+                                <div class="tour-price-item">
+                                    <div class="tour-price-amount">
+                                        <small>از</small> ۲,۳۵۰,۰۰۰
+                                    </div>
+                                    <div class="tour-price-note">تومان (۹ روزه)</div>
+                                </div>
+                                <div class="tour-price-item">
+                                    <div class="tour-price-amount">
+                                        <small>از</small> ۱,۷۵۰,۰۰۰
+                                    </div>
+                                    <div class="tour-price-note">تومان (قطار - ۷ روزه)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4 flex-wrap">
+                            <a href="/Home/Booking?city=shiraz&type=plane" class="tour-btn-primary">
+                                <i class="fa fa-calendar-check"></i> رزرو تور
+                            </a>
+                            <a href="/Home/TravelGuide#shiraz" class="tour-btn-outline tour-guide-btn" data-city="shiraz">
+                                <i class="fa fa-map"></i> راهنمای سفر
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Esfahan Tour -->
+            <div class="col-lg-4 col-md-6 tour-item" data-price="1850000" data-type="plane train" data-category="cheap" data-cities="esfahan">
+                <div class="tour-card animate__animated animate__fadeInUp animate__delay-3s">
+                    <span class="tour-city-badge">اصفهان</span>
+                    <button class="tour-favorite-btn" data-city="esfahan">
+                        <i class="fa fa-star"></i>
+                    </button>
+                    <div class="tour-image-container" style="background-image: url('/img/imgcities/e1.webp')">
+                        <div class="tour-image-overlay">
+                            <h4>نصف جهان</h4>
+                            <p>هنری و معماری</p>
+                        </div>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3 class="tour-title">تور هنری اصفهان</h3>
+                        <ul class="tour-features">
+                            <li>بازداد از میدان نقش جهان</li>
+                            <li>گردش در پل‌های تاریخی و زاینده‌رود</li>
+                            <li>بازداد از کاخ عالی‌قاپو و چهلستون</li>
+                            <li>تور خرید در بازار قیصریه</li>
+                            <li>اقامت در هتل‌های سنتی</li>
+                        </ul>
+
+                        <div class="tour-price-section">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="tour-price-badge sea">تور هوایی یا زمینی</span>
+                                <span class="tour-price-badge cheap">ارزان‌ترین</span>
+                            </div>
+                            <div class="tour-price-comparison">
+                                <div class="tour-price-item">
+                                    <div class="tour-price-amount">
+                                        <small>از</small> ۱,۴۵۰,۰۰۰
+                                    </div>
+                                    <div class="tour-price-note">تومان (۶ روزه)</div>
+                                </div>
+                                <div class="tour-price-item">
+                                    <div class="tour-price-amount">
+                                        <small>از</small> ۱,۱۵۰,۰۰۰
+                                    </div>
+                                    <div class="tour-price-note">تومان (قطار - ۵ روزه)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4 flex-wrap">
+                            <a href="/Home/Booking?city=esfahan&type=plane" class="tour-btn-primary">
+                                <i class="fa fa-calendar-check"></i> رزرو تور
+                            </a>
+                            <a href="/Home/TravelGuide#isfahan" class="tour-btn-outline tour-guide-btn" data-city="esfahan">
+                                <i class="fa fa-map"></i> راهنمای سفر
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kish Tour -->
+            <div class="col-lg-4 col-md-6 tour-item" data-price="3150000" data-type="plane train sea combo" data-category="combo expensive" data-cities="kish">
+                <div class="tour-card animate__animated animate__fadeInUp animate__delay-4s">
+                    <span class="tour-city-badge">کیش</span>
+                    <button class="tour-favorite-btn" data-city="kish">
+                        <i class="fa fa-star"></i>
+                    </button>
+                    <div class="tour-image-container" style="background-image: url('/img/imgcities/k1.webp')">
+                        <div class="tour-image-overlay">
+                            <h4>جزیره مرجانی</h4>
+                        </div>
+                    </div>
+                    <div class="tour-card-body">
+                        <h3 class="tour-title">تور دریایی کیش</h3>
+                        <ul class="tour-features">
+                            <li>تور غواصی و تماشای مرجان‌ها</li>
+                            <li>گردش دریایی با قایق‌های تفریحی</li>
+                            <li>بازداد از شهر زیرزمینی کاریز</li>
+                            <li>خرید در مراکز تجاری مدرن</li>
+                            <li>اقامت در هتل‌های ساحلی لوکس</li>
+                            <li><strong>ویژه:</strong> تور دریایی به جزایر اطراف</li>
+                        </ul>
+
+                        <div class="tour-price-section">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="tour-price-badge sea">تور هوایی، زمینی یا دریایی</span>
+                                <span class="tour-price-badge expensive">گران‌ترین</span>
+                            </div>
+                            <div class="tour-price-comparison">
+                                <div class="tour-price-item">
+                                    <div class="tour-price-amount">
+                                        <small>از</small> ۳,۱۵۰,۰۰۰
+                                    </div>
+                                    <div class="tour-price-note">تومان (هوایی - ۱۰ روزه)</div>
+                                </div>
+                                <div class="tour-price-item">
+                                    <div class="tour-price-amount">
+                                        <small>از</small> ۲,۶۵۰,۰۰۰
+                                    </div>
+                                    <div class="tour-price-note">تومان (زمینی - ۸ روزه)</div>
+                                </div>
+                                <div class="tour-price-item">
+                                    <div class="tour-price-amount">
+                                        <small>از</small> ۲,۳۵۰,۰۰۰
+                                    </div>
+                                    <div class="tour-price-note">تومان (دریایی - ۷ روزه)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4 flex-wrap">
+                            <a href="/Home/Booking?city=kish&type=plane" class="tour-btn-primary">
+                                <i class="fa fa-calendar-check"></i> رزرو تور
+                            </a>
+                            <a href="/Home/TravelGuide#kish" class="tour-btn-outline tour-guide-btn" data-city="kish">
+                                <i class="fa fa-map"></i> راهنمای سفر
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Travel guide section -->
+        <div class="tour-guide-section animate__animated animate__fadeIn">
+            <h3><i class="fa fa-info-circle"></i> راهنمای سفر و اطلاعات تورها</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 style="color: var(--tour-primary);">شرایط و مقررات:</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-check text-success mr-2"></i> همه تورها شامل پرواز رفت و برگشت می‌باشد</li>
+                        <li><i class="fa fa-check text-success mr-2"></i> تورهای گران‌ترین: ۱۰ روزه با پرواز VIP</li>
+                        <li><i class="fa fa-check text-success mr-2"></i> تورهای ارزان‌ترین: ۵-۷ روزه با پرواز معمولی</li>
+                        <li><i class="fa fa-check text-success mr-2"></i> تور کیش شامل خدمات دریایی ویژه می‌باشد</li>
+                        <li><i class="fa fa-check text-success mr-2"></i> قیمت‌ها شامل بیمه مسافرتی می‌باشد</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5 style="color: var(--tour-primary);">خدمات شامل تور:</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-plane text-primary mr-2"></i> پرواز رفت و برگشت یا بلیط قطار</li>
+                        <li><i class="fa fa-bed text-primary mr-2"></i> اقامت در هتل با صبحانه</li>
+                        <li><i class="fa fa-car text-primary mr-2"></i> ترانسفر فرودگاهی و هتلی</li>
+                        <li><i class="fa fa-user text-primary mr-2"></i> راهنمای تور</li>
+                        <li><i class="fa fa-map-marked-alt text-primary mr-2"></i> تورهای شهری طبق برنامه</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tour-transport-icons">
+                <div class="tour-icon-container">
+                    <div class="tour-icon-circle">
+                        <i class="fa fa-plane"></i>
+                    </div>
+                    <p class="mb-0">تورهای هوایی</p>
+                    <small class="text-muted">سریع‌تر و راحت‌تر</small>
+                </div>
+                <div class="tour-icon-container">
+                    <div class="tour-icon-circle">
+                        <i class="fa fa-train"></i>
+                    </div>
+                    <p class="mb-0">تورهای زمینی</p>
+                    <small class="text-muted">اقتصادی و دیدنی</small>
+                </div>
+                <div class="tour-icon-container">
+                    <div class="tour-icon-circle">
+                        <i class="fa fa-ship"></i>
+                    </div>
+                    <p class="mb-0">تورهای دریایی</p>
+                    <small class="text-muted">مخصوص کیش</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/tours.js" asp-append-version="true"></script>
+}
