@@ -32,7 +32,7 @@ namespace Entities
         [Required]
         public bool IsSpecial { get; set; } = false;
         [MaxLength(2000)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [Required]
         public TourType TourType { get; set; } = TourType.زمینی;
         public bool IsConfirm { get; set; } = false;

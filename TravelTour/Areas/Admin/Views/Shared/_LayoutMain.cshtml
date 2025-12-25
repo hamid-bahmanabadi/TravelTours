@@ -1,0 +1,126 @@
+﻿@{
+    var title = ViewData["Title"] ?? "LOFT CITY Admin";
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <title>@title - پنل مدیریت</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="~/img/favicon.ico" rel="icon" />
+    <link href="~/img/apple-favicon.png" rel="apple-touch-icon" />
+
+    <!-- CSS Files -->
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/css/adminstyle.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="admin-header-logo">
+            <i class="fa fa-shield"></i>
+            <div>
+                <p class="admin-header-title">پنل مدیریت</p>
+                <p class="admin-header-subtitle">LOFT CITY Management Panel</p>
+            </div>
+        </div>
+        <div>
+            <span class="admin-badge">
+                <i class="fa fa-lock"></i> مدیریت
+            </span>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="admin-nav">
+        <ul>
+            <li><a asp-controller="Tour" asp-action="Index" asp-area="Admin"><i class="fa fa-suitcase"></i> مدیریت تورها</a></li>
+            <li><a asp-controller="Home" asp-action="Index" asp-area="Admin"><i class="fa fa-dashboard"></i> داشبورد</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <ul class="admin-sidebar-menu">
+                <li>
+                    <a asp-controller="Home" asp-action="Index" asp-area="Admin" class="active">
+                        <i class="fa fa-dashboard"></i> داشبورد
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Tour" asp-action="Index" asp-area="Admin">
+                        <i class="fa fa-suitcase"></i> لیست تورها
+                    </a>
+                </li>
+                <li>
+                    <a asp-controller="Tour" asp-action="Create" asp-area="Admin">
+                        <i class="fa fa-plus"></i> تور جدید
+                    </a>
+                </li>
+                <li style="border-top: 1px solid #ecf0f1; margin-top: 1rem; padding-top: 1rem;">
+                    <a href="/" title="بازگشت به سایت اصلی">
+                        <i class="fa fa-home"></i> سایت اصلی
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Content -->
+        <main class="admin-content">
+            <!-- Breadcrumb -->
+            <div class="admin-breadcrumb">
+                <strong>📍 موقعیت:</strong> پنل مدیریت
+                <span style="float: left; opacity: 0.7;">
+                    <i class="fa fa-clock-o"></i>
+                    <span id="currentTime">---</span>
+                </span>
+            </div>
+
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="admin-footer">
+        <p>© تمام حقوق محفوظ است - سیستم مدیریت LOFT CITY | <strong>نسخه 1.0</strong></p>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/main.js"></script>
+
+    <script>
+        // Real-time clock
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('fa-IR', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('currentTime').textContent = timeString;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Set active menu item
+        document.addEventListener('DOMContentLoaded', function () {
+            const currentPath = window.location.pathname;
+            document.querySelectorAll('.admin-nav a, .admin-sidebar-menu a').forEach(link => {
+                if (link.href === window.location.href) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -8,7 +8,7 @@ namespace DTO.Enums
 {
     public enum TourType
     {
-         زمینی,هوایی,دریایی
- 
+         زمینی,هوایی,دریایی, ترکیبی
+
     }
 }

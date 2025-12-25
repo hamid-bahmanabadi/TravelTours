@@ -1612,3 +1612,134 @@ input::-ms-input-placeholder {
         margin: 0;
         font-size: 18px;
     }
+
+
+
+
+
+
+/* Add at the end of file */
+
+/* ================================================= */
+/* ---------- Tour Create Form CSS Styles ---------- */
+/* ================================================= */
+
+.form-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.form-control,
+.form-select {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 15px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        outline: none;
+    }
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: #ffffff;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+        color: #ffffff;
+    }
+
+/* RTL Checkbox Styling for Create Form */
+.checkbox-rtl {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+    .checkbox-rtl input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+        margin-right: 0;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .checkbox-rtl label {
+        cursor: pointer;
+        margin-bottom: 0;
+        font-weight: 500;
+        margin-right: 0;
+    }
+
+/* Form validation messages */
+.text-danger {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+    padding: 12px 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+/* Responsive for Tour Create Form */
+@media (max-width: 767.98px) {
+    .form-section {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .section-title {
+        font-size: 16px;
+        margin-bottom: 12px;
+    }
+
+    .form-label {
+        font-size: 13px;
+    }
+
+    .form-control,
+    .form-select {
+        font-size: 13px;
+        padding: 8px 12px;
+    }
+
+    .btn-lg {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+}
