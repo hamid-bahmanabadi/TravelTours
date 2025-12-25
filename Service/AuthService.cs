@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DTO.Enums
+namespace Service
 {
-    public enum TourType
+    public class AuthService
     {
-         زمینی,هوایی,دریایی, ترکیبی
-
     }
 }

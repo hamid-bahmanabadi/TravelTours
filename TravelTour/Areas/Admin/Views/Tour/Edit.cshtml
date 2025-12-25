@@ -1,0 +1,168 @@
+﻿@model TourDto
+
+@{
+    ViewData["Title"] = "ویرایش  تور ";
+   
+}
+<div class="container" style="max-width: 900px; margin: 40px auto; text-align: right; direction: rtl;">
+    <header class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-end">ثبت تور جدید</h2>
+        <a asp-action="Index" asp-controller="Tour" class="btn btn-secondary">بازگشت به لیست</a>
+    </header>
+
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+    <form asp-action="Edit" asp-controller="Tour" method="post">
+
+        <div class="form-section">
+            <div class="section-title">اطلاعات اساسی</div>
+            <input asp-for="Id" class="form-control" hidden />
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Title" class="form-label">عنوان تور</label>
+                        <input asp-for="Title" class="form-control" placeholder="عنوان تور را وارد کنید" />
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="TourType" class="form-label">نوع تور</label>
+                        <select asp-for="TourType" class="form-select">
+                            <option value="0">زمینی</option>
+                            <option value="1">دریایی</option>
+                            <option value="2">هوایی</option>
+                            <option value="3">ترکیبی</option>
+                        </select>
+                        <span asp-validation-for="TourType" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="AgencyId" class="form-label">آژانس</label>
+                        <select asp-for="AgencyId" class="form-select">
+                            <option value="">-- آژانس را انتخاب کنید --</option>
+                            <option value="1">آژانس اول</option>
+                            <option value="2">آژانس دوم</option>
+                        </select>
+                        <span asp-validation-for="AgencyId" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="CityId" class="form-label">شهر</label>
+                        <select asp-for="CityId" asp-items="ViewBag.Cities" class="form-select">
+                            <option value="">-- شهر را انتخاب کنید --</option>
+                        </select>
+                        <span asp-validation-for="CityId" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="CategoryId" class="form-label">دسته‌بندی</label>
+                        <select asp-for="CategoryId" class="form-select">
+                            <option value="">-- دسته‌بندی را انتخاب کنید --</option>
+                            <option value="1">طبیعت گردی</option>
+                            <option value="2">کاری</option>
+                            <option value="3">سلامت</option>
+                            <option value="4">تفریحی</option>
+                        </select>
+                        <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="section-title">اطلاعات مالی و ظرفیت</div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Price" class="form-label">قیمت (ریال)</label>
+                        <input asp-for="Price" type="number" class="form-control" placeholder="قیمت را به ریال وارد کنید" />
+                        <span asp-validation-for="Price" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Capacity" class="form-label">ظرفیت</label>
+                        <input asp-for="Capacity" type="number" class="form-control" placeholder="ظرفیت را وارد کنید" min="1" />
+                        <span asp-validation-for="Capacity" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="section-title">زمان و مدت تور</div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="StartDate" class="form-label">تاریخ شروع</label>
+                        <input asp-for="StartDate" type="datetime-local" class="form-control" />
+                        <span asp-validation-for="StartDate" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Duration" class="form-label">مدت زمان (روز)</label>
+                        <input asp-for="Duration" type="number" class="form-control" placeholder="تعداد روز" min="1" max="365" />
+                        <span asp-validation-for="Duration" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="section-title">توضیحات و وضعیت</div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="form-label">توضیحات</label>
+                <textarea asp-for="Description" class="form-control" rows="5" placeholder="توضیحات تور را وارد کنید"></textarea>
+                <span asp-validation-for="Description" class="text-danger small"></span>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="checkbox-rtl">
+                        <input asp-for="IsSpecial" type="checkbox" id="isSpecial" />
+                        <label for="isSpecial">این تور ویژه است</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="checkbox-rtl">
+                        <input asp-for="IsActive" type="checkbox" id="isActive" />
+                        <label for="isActive">این تور فعال است</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group mb-3">
+                <div class="checkbox-rtl">
+                    <input asp-for="IsConfirm" type="checkbox" id="isConfirm" />
+                    <label for="isConfirm">این تور تایید شده است</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex gap-2 justify-content-end mb-4">
+            <button type="submit" class="btn btn-success btn-lg">
+                <i class="fa fa-save"></i> ویرایش تور
+            </button>
+            <a asp-action="Index" class="btn btn-secondary btn-lg">
+                <i class="fa fa-times"></i> انصراف
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

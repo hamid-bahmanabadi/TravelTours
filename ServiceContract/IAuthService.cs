@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DTO.Enums
+namespace ServiceContract
 {
-    public enum TourType
+    public interface IAuthService
     {
-         زمینی,هوایی,دریایی, ترکیبی
-
+        Task RegiserUser();
+        Task LoginUser();
     }
 }

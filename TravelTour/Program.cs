@@ -5,7 +5,7 @@ using Service;
 using ServiceContract;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddScoped<ITourService, TourService>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<TravelContext>(option =>
@@ -18,7 +18,10 @@ builder.Services.AddIdentity<AppUser,AppRole>()
 
 
 #region Services
+builder.Services.AddScoped<ITourService, TourService>();
 builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<TourService>();
+
 #endregion
 
 
@@ -35,10 +38,18 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+
+app.MapControllerRoute(
+      name: "areas",
+      pattern: "{controller=Home}/{action=Index}/{id?}"
+    );
+
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
 
 
 app.Run();

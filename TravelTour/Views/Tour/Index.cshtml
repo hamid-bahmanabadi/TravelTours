@@ -1,0 +1,92 @@
+﻿@model List<TourDto>
+
+@{
+    ViewData["Title"] = "لیست تورها";
+    int pageNumber = ViewBag.PageNumber;
+    int pageCount = ViewBag.PageCount;
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<header class="d-flex justify-content-between align-items-center m-4">
+    <h2 class="text-end">لیست تورها</h2>
+</header>
+
+
+<body style="text-align:right">
+    <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-secondary">
+        <tr>
+            <th>عنوان تور</th>
+            <th>آزانس مسافرتی</th>
+            <th>نوع تور</th>
+            <th>مقصد</th>
+            <th>قیمت</th>
+            <th>مدت</th>
+            <th>تاریخ شروع</th>
+            <th>ظرفیت</th>
+            <th>ویژه</th>
+            <th>وضعیت</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.AgencyName</td>
+                    <td>@item.CategoryName</td>
+                    <td>@item.CityName</td>
+                    <td>@item.Price.ToString("N0")</td>
+                    <td>@item.Duration روز</td>
+                    <td>@item.StartDate.ToString("yyyy/MM/dd")</td>
+                    <td>@item.Capacity</td>
+                    <td>
+                        @(item.IsSpecial ? "ویژه" : "معمولی")
+                    </td>
+                    <td>
+                        @if (item.IsActive && item.IsConfirm)
+                        {
+                            <span class="badge bg-success">فعال</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">غیرفعال</span>
+                        }
+                    </td>                      
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8">هیچ توری یافت نشد</td>
+            </tr>
+        }
+    </tbody>
+</table>
+    <!-- صفحه‌بندی -->
+    <nav>
+        <ul class="pagination justify-content-center">
+
+            <li class="page-item @(pageNumber == 1 ? "disabled" : "")">
+                <a class="page-link" href="?pageNumber=@(pageNumber - 1)">قبلی</a>
+            </li>
+
+            @for (int i = 1; i <= pageCount; i++)
+            {
+                <li class="page-item @(i == pageNumber ? "active" : "")">
+                    <a class="page-link" href="?pageNumber=@i">@i</a>
+                </li>
+            }
+
+            <li class="page-item @(pageNumber == pageCount ? "disabled" : "")">
+                <a class="page-link" href="?pageNumber=@(pageNumber + 1)">بعدی</a>
+            </li>
+
+        </ul>
+    </nav>
+</body>
+
+
