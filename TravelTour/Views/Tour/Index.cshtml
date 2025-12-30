@@ -1,92 +1,167 @@
 ﻿@model List<TourDto>
 
 @{
-    ViewData["Title"] = "لیست تورها";
-    int pageNumber = ViewBag.PageNumber;
-    int pageCount = ViewBag.PageCount;
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
+    ViewData["Title"] = "تورهای ویژه";
 }
+<link rel="stylesheet" href="~/css/tours.css" asp-append-version="true" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
-<header class="d-flex justify-content-between align-items-center m-4">
-    <h2 class="text-end">لیست تورها</h2>
-</header>
+<div class="tours-page">
+    <header class="tour-header">
+        <div class="container">
+            <h1 class="tour-floating animate__animated animate__fadeInDown tour-pulse">تورهای رویایی ایران</h1>
+            <p class="lead animate__animated animate__fadeInUp animate__delay-1s text-white">
+                تجربه‌ای فراموش‌نشدنی در زیباترین شهرهای ایران با بهترین خدمات و قیمت‌ها
+            </p>
+            <div class="mt-4 animate__animated animate__fadeInUp animate__delay-2s">
+                <a href="#tours" class="tour-btn-primary btn-lg">
+                    <i class="fa fa-plane"></i> مشاهده تورها
+                </a>
+            </div>
+        </div>
+    </header>
 
+    <div class="container" id="tours">
+        <!-- Filters section -->
+        <div class="tour-filters animate__animated animate__fadeIn">
+            <div class="filter-buttons">
+                <button class="tour-filter-btn btn active" data-filter="all">
+                    <i class="fa fa-globe"></i> همه تورها
+                </button>
+                <button class="tour-filter-btn btn" data-filter="cheap">
+                    <i class="fa fa-money"></i> ارزان‌ترین‌ها
+                </button>
+                <button class="tour-filter-btn btn" data-filter="expensive">
+                    <i class="fa fa-diamond"></i> گران‌ترین‌ها
+                </button>
+                <button class="tour-filter-btn btn" data-filter="plane">
+                    <i class="fa fa-plane"></i> تورهای هوایی
+                </button>
+                <button class="tour-filter-btn btn" data-filter="train">
+                    <i class="fa fa-train"></i> تورهای زمینی
+                </button>
+                <button class="tour-filter-btn btn" data-filter="sea">
+                    <i class="fa fa-ship"></i> تورهای دریایی
+                </button>
+                <button class="tour-filter-btn btn" data-filter="combo">
+                    <i class="fa fa-random"></i> تورهای ترکیبی
+                </button>
+                <button class="tour-filter-btn btn" data-filter="favorites" id="favoritesFilterBtn">
+                    <i class="fa fa-star"></i> علاقه‌مندی‌ها
+                    <span class="badge badge-light ml-2 favorites-count">0</span>
+                </button>
+            </div>
+        </div>
 
-<body style="text-align:right">
-    <table class="table table-bordered table-hover text-center align-middle">
-        <thead class="table-secondary">
-        <tr>
-            <th>عنوان تور</th>
-            <th>آزانس مسافرتی</th>
-            <th>نوع تور</th>
-            <th>مقصد</th>
-            <th>قیمت</th>
-            <th>مدت</th>
-            <th>تاریخ شروع</th>
-            <th>ظرفیت</th>
-            <th>ویژه</th>
-            <th>وضعیت</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Any())
-        {
-            foreach (var item in Model)
+        <!-- Tour cards -->
+        <div class="row" id="tourContainer">
+            <!-- Tehran Tour -->
+            @foreach (var item in Model)
             {
-                <tr>
-                    <td>@item.Title</td>
-                    <td>@item.AgencyName</td>
-                    <td>@item.CategoryName</td>
-                    <td>@item.CityName</td>
-                    <td>@item.Price.ToString("N0")</td>
-                    <td>@item.Duration روز</td>
-                    <td>@item.StartDate.ToString("yyyy/MM/dd")</td>
-                    <td>@item.Capacity</td>
-                    <td>
-                        @(item.IsSpecial ? "ویژه" : "معمولی")
-                    </td>
-                    <td>
-                        @if (item.IsActive && item.IsConfirm)
-                        {
-                            <span class="badge bg-success">فعال</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-secondary">غیرفعال</span>
-                        }
-                    </td>                      
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="8">هیچ توری یافت نشد</td>
-            </tr>
-        }
-    </tbody>
-</table>
-    <!-- صفحه‌بندی -->
-    <nav>
-        <ul class="pagination justify-content-center">
+                <div class="col-lg-4 col-md-6 tour-item" data-price="@item.Price" data-type="@item.CategoryName" data-category="expensive" data-cities="@item.CityName">
+                    <div class="tour-card animate__animated animate__fadeInUp">
+                        <span class="tour-city-badge">@item.CityName</span>
+                        <button class="tour-favorite-btn" data-city="@item.CityName">
+                            <i class="fa fa-star"></i>
+                        </button>
+                        <div class="tour-image-container" style="background-image: url('/img/imgcities/t2.webp')">
+                            <div class="tour-image-overlay">
+                                <h4>@item.Title</h4>
+                                <p>@item.Duration</p>
+                            </div>
+                        </div>
+                        <div class="tour-card-body">
+                            <h3 class="tour-title">@item.Title</h3>
+                            <ul class="tour-features">
+                                <li>بازدید از برج میلاد و برج آزادی</li>
+                                <li>گردش در کاخ گلستان و سعدآباد</li>
+                                <li>بازداد از بازار بزرگ تهران و پاساژهای مدرن</li>
+                                <li>تور غذای ایرانی در بهترین رستوران‌ها</li>
+                                <li>اقامت در هتل ۵ ستاره اسپیناس پالاس</li>
+                            </ul>
 
-            <li class="page-item @(pageNumber == 1 ? "disabled" : "")">
-                <a class="page-link" href="?pageNumber=@(pageNumber - 1)">قبلی</a>
-            </li>
+                            <div class="tour-price-section">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="tour-price-badge sea">@item.TourType</span>
+                                    <span class="tour-price-badge expensive">گران‌ترین</span>
+                                </div>
+                                <div class="tour-price-comparison">                                    
+                                    <div class="tour-price-item">
+                                        <div class="tour-price-amount">
+                                            <p>قیمت:@item.Price تومان</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-            @for (int i = 1; i <= pageCount; i++)
-            {
-                <li class="page-item @(i == pageNumber ? "active" : "")">
-                    <a class="page-link" href="?pageNumber=@i">@i</a>
-                </li>
-            }
+                            <div class="d-flex justify-content-between mt-4 flex-wrap">
+                                <a href="/Home/Booking?city=tehran&type=plane" class="tour-btn-primary">
+                                    <i class="fa fa-calendar-check"></i> رزرو تور
+                                </a>
+                                <a href="/Home/TravelGuide#tehran" class="tour-btn-outline tour-guide-btn" data-city="tehran">
+                                    <i class="fa fa-map"></i> راهنمای سفر
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <li class="page-item @(pageNumber == pageCount ? "disabled" : "")">
-                <a class="page-link" href="?pageNumber=@(pageNumber + 1)">بعدی</a>
-            </li>
+            }           
+        <!-- Travel guide section -->
+        <div class="tour-guide-section animate__animated animate__fadeIn">
+            <h3><i class="fa fa-info-circle"></i> راهنمای سفر و اطلاعات تورها</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 style="color: var(--tour-primary);">شرایط و مقررات:</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-check text-success mr-2"></i> همه تورها شامل پرواز رفت و برگشت می‌باشد</li>
+                        <li><i class="fa fa-check text-success mr-2"></i> تورهای گران‌ترین: ۱۰ روزه با پرواز VIP</li>
+                        <li><i class="fa fa-check text-success mr-2"></i> تورهای ارزان‌ترین: ۵-۷ روزه با پرواز معمولی</li>
+                        <li><i class="fa fa-check text-success mr-2"></i> تور کیش شامل خدمات دریایی ویژه می‌باشد</li>
+                        <li><i class="fa fa-check text-success mr-2"></i> قیمت‌ها شامل بیمه مسافرتی می‌باشد</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5 style="color: var(--tour-primary);">خدمات شامل تور:</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-plane text-primary mr-2"></i> پرواز رفت و برگشت یا بلیط قطار</li>
+                        <li><i class="fa fa-bed text-primary mr-2"></i> اقامت در هتل با صبحانه</li>
+                        <li><i class="fa fa-car text-primary mr-2"></i> ترانسفر فرودگاهی و هتلی</li>
+                        <li><i class="fa fa-user text-primary mr-2"></i> راهنمای تور</li>
+                        <li><i class="fa fa-map-marked-alt text-primary mr-2"></i> تورهای شهری طبق برنامه</li>
+                    </ul>
+                </div>
+            </div>
 
-        </ul>
-    </nav>
-</body>
+            <div class="tour-transport-icons">
+                <div class="tour-icon-container">
+                    <div class="tour-icon-circle">
+                        <i class="fa fa-plane"></i>
+                    </div>
+                    <p class="mb-0">تورهای هوایی</p>
+                    <small class="text-muted">سریع‌تر و راحت‌تر</small>
+                </div>
+                <div class="tour-icon-container">
+                    <div class="tour-icon-circle">
+                        <i class="fa fa-train"></i>
+                    </div>
+                    <p class="mb-0">تورهای زمینی</p>
+                    <small class="text-muted">اقتصادی و دیدنی</small>
+                </div>
+                <div class="tour-icon-container">
+                    <div class="tour-icon-circle">
+                        <i class="fa fa-ship"></i>
+                    </div>
+                    <p class="mb-0">تورهای دریایی</p>
+                    <small class="text-muted">مخصوص کیش</small>
+                </div>
+            </div>
+        </div>
+    </div>
 
+</div>
 
+@section Scripts {
+    <script src="~/js/tours.js" asp-append-version="true"></script>
+}
