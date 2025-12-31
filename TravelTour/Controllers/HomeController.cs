@@ -47,11 +47,7 @@ namespace TravelTour.Controllers
         {
             return View();
         }
-
-        public IActionResult Tours()
-        {
-            return View();
-        }
+      
         public IActionResult Favorites()
         {
             return View();
