@@ -14,11 +14,11 @@
         btn.toggleClass('active');
 
         if (btn.hasClass('active')) {
-            btn.find('i').removeClass('fa-star').addClass('fa-star');
+            btn.find('i').removeClass('fa-star-o').addClass('fa-star');
             addToFavorites(city);
             showNotification('به علاقه مندی ها اضافه شد', 'success');
         } else {
-            btn.find('i').removeClass('fa-star').addClass('fa-star');
+            btn.find('i').removeClass('fa-star').addClass('fa-star-o');
             removeFromFavorites(city);
             showNotification('از علاقه مندی ها حذف شد ', 'info');
         }
@@ -26,7 +26,7 @@
         updateFavoritesCount();
     });
 
-    // Manage filters
+    // Manage filters - AJAX version
     $('.tour-filter-btn').click(function (e) {
         e.preventDefault();
         var btn = $(this);
@@ -35,8 +35,38 @@
         $('.tour-filter-btn').removeClass('active');
         btn.addClass('active');
 
-        // Filter cards
-        filterTours(filter);
+        // درخواست AJAX برای فیلتر کردن در سرور
+        $.ajax({
+            url: '/Tour/Index',
+            type: 'GET',
+            data: {
+                filter: filter,
+                pageNumber: 1,
+                pageSize: 12
+            },
+            success: function (data) {
+                // استخراج محتوای tour items از جواب
+                var newContent = $(data).find('#tourContainer').html();
+
+                if (newContent) {
+                    // به‌روزرسانی محتوای صفحه
+                    $('#tourContainer').html(newContent);
+
+                    // دوباره attach کردن event listeners برای عناصر جدید
+                    reattachEventListeners();
+
+                    // اسکرول به بالا
+                    $('html, body').animate({ scrollTop: $('#tours').offset().top - 100 }, 600);
+                    showNotification('فیلتر اعمال شد', 'success');
+                } else {
+                    showNotification('خطا: محتوا پیدا نشد', 'warning');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error:', error);
+                showNotification('خطا در اعمال فیلتر', 'danger');
+            }
+        });
     });
 
     // Back to top button
@@ -53,9 +83,17 @@
         $('html, body').animate({ scrollTop: 0 }, 600);
     });
 
+    // Initialize hover effects
+    attachCardHoverEffects();
+});
+
+// Function to attach hover effects to cards
+function attachCardHoverEffects() {
     $('.tour-card').each(function () {
         var card = $(this);
         var image = card.find('.tour-image-container');
+
+        card.off('mouseenter mouseleave'); // Remove old handlers
 
         card.on('mouseenter', function () {
             image.css('transform', 'scale(1.08)');
@@ -65,129 +103,19 @@
             image.css('transform', 'scale(1)');
         });
     });
-
-});
-
-// Function to filter tours
-function filterTours(filter) {
-    var tourItems = $('.tour-item');
-
-    tourItems.hide();
-
-    switch (filter) {
-        case 'all':
-            tourItems.show();
-            break;
-
-        case 'cheap':
-            tourItems.filter('[data-category*="cheap"]').show();
-            break;
-
-        case 'expensive':
-            tourItems.filter('[data-category*="expensive"]').show();
-            break;
-
-        case 'plane':
-            tourItems.filter('[data-type*="plane"]').show();
-            break;
-
-        case 'train':
-            tourItems.filter('[data-type*="train"]').show();
-            break;
-
-        case 'sea':
-            tourItems.filter('[data-type*="sea"]').show();
-            break;
-
-        case 'combo':
-            var comboItems = tourItems.filter('[data-type*="combo"], [data-category*="combo"]');
-            comboItems.show();
-
-            if (comboItems.length === 0) {
-                showNotification('No combo tours available!', 'warning');
-
-                setTimeout(function () {
-                    tourItems.show();
-                    $('.tour-filter-btn[data-filter="all"]').addClass('active');
-                    $('.tour-filter-btn[data-filter="combo"]').removeClass('active');
-                }, 1500);
-            }
-            break;
-
-        case 'favorites':
-            var favorites = getFavorites();
-            tourItems.each(function () {
-                var city = $(this).find('.tour-favorite-btn').data('city');
-                if (favorites.includes(city)) {
-                    $(this).show();
-                }
-            });
-
-            if ($('.tour-item:visible').length === 0) {
-                showNotification('هیچ توری در لیست علاقه‌مندی‌ها وجود ندارد', 'warning');
-            }
-            break;
-    }
 }
 
-// Manage favorites
-function getFavorites() {
-    return JSON.parse(localStorage.getItem('tourFavorites') || '[]');
-}
+// Function to reattach all event listeners after AJAX load
+function reattachEventListeners() {
+    // Reattach hover effects
+    attachCardHoverEffects();
 
-function addToFavorites(city) {
-    var favorites = getFavorites();
-    if (!favorites.includes(city)) {
-        favorites.push(city);
-        localStorage.setItem('tourFavorites', JSON.stringify(favorites));
-    }
-}
+    // Reattach favorite button handlers
+    $('.tour-favorite-btn').off('click').on('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
 
-function removeFromFavorites(city) {
-    var favorites = getFavorites();
-    favorites = favorites.filter(function (f) {
-        return f !== city;
-    });
-    localStorage.setItem('tourFavorites', JSON.stringify(favorites));
-}
+        var btn = $(this);
+        var city = btn.data('city');
 
-function loadFavorites() {
-    var favorites = getFavorites();
-    favorites.forEach(function (city) {
-        $('.tour-favorite-btn[data-city="' + city + '"]').each(function () {
-            $(this).addClass('active');
-            $(this).find('i').removeClass('fa-star').addClass('fa-star');
-        });
-    });
-}
-
-function updateFavoritesCount() {
-    var favoritesCount = getFavorites().length;
-    $('.favorites-count').text(favoritesCount);
-}
-
-function showNotification(message, type) {
-    var alertClass = type === 'success' ? 'alert-success' :
-        type === 'info' ? 'alert-info' :
-            type === 'warning' ? 'alert-warning' : 'alert-danger';
-    var icon = type === 'success' ? 'fa-check-circle' :
-        type === 'info' ? 'fa-info-circle' :
-            type === 'warning' ? 'fa-exclamation-triangle' : 'fa-times-circle';
-
-    $('.tour-notification').remove();
-
-    var notification = $(
-        '<div class="alert ' + alertClass + ' alert-dismissible fade show tour-notification" role="alert">' +
-        '<div class="d-flex align-items-center">' +
-        '<div class="flex-grow-1">' + message + '</div>' +
-        '</button>' +
-        '</div>' +
-        '</div>'
-    );
-
-    $('body').append(notification);
-
-    setTimeout(function () {
-        notification.remove();
-    }, 3000);
-}
+        btn.toggleClass('active');

@@ -12,23 +12,24 @@
 
     <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
-    <form asp-action="Create" asp-controller="Tour" method="post">
+    <form asp-action="Create" asp-controller="Tour" method="post" enctype="multipart/form-data">
         
         <div class="form-section">
             <div class="section-title">اطلاعات اساسی</div>
-
+            <hr />
             <div class="row mb-3">
-                <div class="col-md-6">
-                    <div class="form-group">
+                <div class="col-12 col-md-6 d-flex flex-column">
+                    <div class="form-group h-100 d-flex flex-column">
                         <label asp-for="Title" class="form-label">عنوان تور</label>
-                        <input asp-for="Title" class="form-control" placeholder="عنوان تور را وارد کنید" />
+                        <input asp-for="Title" class="form-control flex-grow-1" placeholder="عنوان تور را وارد کنید" />
                         <span asp-validation-for="Title" class="text-danger small"></span>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
+                <div class="col-12 col-md-6 d-flex flex-column">
+                    <div class="form-group h-100 d-flex flex-column">
                         <label asp-for="TourType" class="form-label">نوع تور</label>
-                        <select asp-for="TourType" class="form-select">
+                        <select asp-for="TourType" class="form-select flex-grow-1">
+                            <option value="">نوع تور را انتخاب کنید</option>
                             <option value="0">زمینی</option>
                             <option value="1">دریایی</option>
                             <option value="2">هوایی</option>
@@ -37,13 +38,22 @@
                         <span asp-validation-for="TourType" class="text-danger small"></span>
                     </div>
                 </div>
+                <div class="col-12 col-md-6 d-flex flex-column">
+                    <div class="form-group h-100 d-flex flex-column">
+                        <label asp-for="Images" class="form-label">عکس تور</label>
+                        <input type="file" id="imageInput" asp-for="Images" placeholder="انتخاب عکس" multiple accept="image/*" />
+                        <span asp-validation-for="Images" class="text-danger small"></span>
+                    </div>
+                    <div id="previewContainer"
+                         style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+                    </div>
+                </div>
             </div>
-
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <div class="form-group">
+            <div class="row mb-3 gx-3">
+                <div class="col-12 col-md-4 d-flex flex-column">
+                    <div class="form-group h-100 d-flex flex-column">
                         <label asp-for="AgencyId" class="form-label">آژانس</label>
-                        <select asp-for="AgencyId" class="form-select">
+                        <select asp-for="AgencyId" class="form-select flex-grow-1">
                             <option value="">-- آژانس را انتخاب کنید --</option>
                             <option value="1">آژانس اول</option>
                             <option value="2">آژانس دوم</option>
@@ -51,19 +61,19 @@
                         <span asp-validation-for="AgencyId" class="text-danger small"></span>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
+                <div class="col-12 col-md-4 d-flex flex-column">
+                    <div class="form-group h-100 d-flex flex-column">
                         <label asp-for="CityId" class="form-label">شهر</label>
-                        <select asp-for="CityId" asp-items= "ViewBag.Cities" class="form-select">
+                        <select asp-for="CityId" asp-items="ViewBag.Cities" class="form-select flex-grow-1">
                             <option value="">-- شهر را انتخاب کنید --</option>
                         </select>
                         <span asp-validation-for="CityId" class="text-danger small"></span>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
+                <div class="col-12 col-md-4 d-flex flex-column">
+                    <div class="form-group h-100 d-flex flex-column">
                         <label asp-for="CategoryId" class="form-label">دسته‌بندی</label>
-                        <select asp-for="CategoryId" class="form-select">
+                        <select asp-for="CategoryId" class="form-select flex-grow-1">
                             <option value="">-- دسته‌بندی را انتخاب کنید --</option>
                             <option value="1">طبیعت گردی</option>
                             <option value="2">کاری</option>
@@ -78,7 +88,7 @@
 
         <div class="form-section">
             <div class="section-title">اطلاعات مالی و ظرفیت</div>
-
+            <hr />
             <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -120,7 +130,7 @@
 
         <div class="form-section">
             <div class="section-title">توضیحات و وضعیت</div>
-
+            <hr />
             <div class="form-group mb-3">
                 <label asp-for="Description" class="form-label">توضیحات</label>
                 <textarea asp-for="Description" class="form-control" rows="5" placeholder="توضیحات تور را وارد کنید"></textarea>
@@ -166,3 +176,37 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+<script>
+    document.getElementById('imageInput').addEventListener('change', function () {
+
+        const previewContainer = document.getElementById('previewContainer');
+        previewContainer.innerHTML = ''; // پاک کردن قبلی‌ها
+
+        const files = this.files;
+
+        if (!files || files.length === 0) return;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            // فقط عکس
+            if (!file.type.startsWith('image/')) continue;
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = '120px';
+                img.style.height = '120px';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '8px';
+                img.style.border = '1px solid #ddd';
+
+                previewContainer.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+</script>

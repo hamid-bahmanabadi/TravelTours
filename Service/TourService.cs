@@ -1,5 +1,6 @@
 ﻿using DTO;
 using Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using ServiceContract;
 using System;
@@ -8,12 +9,16 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
+using Image = Entities.Image;
+
 
 namespace Service
 {
     public class TourService : ITourService
     {
         readonly TravelContext _travelContext;
+     
 
         public TourService(TravelContext travelContext)
         {
@@ -23,6 +28,7 @@ namespace Service
         public async Task<ResponsDto> Add(TourDto tourDto)
         {
             ResponsDto respons = new ResponsDto();
+
             var tour = new Tour()
             {
                 Duration = tourDto.Duration,
@@ -38,29 +44,73 @@ namespace Service
                 Capacity = tourDto.Capacity,
                 IsConfirm = tourDto.IsConfirm,
                 TourType = tourDto.TourType,
-
+                Images = new List<Image>()
             };
+
+            if (tourDto.Images != null && tourDto.Images.Any())
+            {                
+                string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/tours/images");
+
+                foreach (var file in tourDto.Images)
+                {
+                    string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                    string filePath = Path.Combine(uploadPath, fileName);
+                    tour.Images.Add(new Image
+                    {
+                        TourId = tourDto.Id,
+                        Path = filePath
+                    });
+                }
+            }
             await _travelContext.Tours.AddAsync(tour);
             var res = await _travelContext.SaveChangesAsync();
-            respons.Succided = res > 0 ? true : false;
-            respons.ErrorMessage = res > 0 ? "" : "مشکلی در اضافه کردن رکورد به وجود آمده است";
+            if (res > 0)
+            {
+                respons.ErrorMessage = "";
+                respons.Succided = true;
+                if (tourDto.Images != null && tourDto.Images.Any())
+                {
+                    string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/tours/images");
+                    if (!Directory.Exists(uploadPath))
+                        Directory.CreateDirectory(uploadPath);
+                    foreach (var file in tourDto.Images)
+                    {
+                        string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                        string filePath = Path.Combine(uploadPath, fileName);
+
+                        using var stream = new FileStream(filePath, FileMode.Create);
+                        await file.CopyToAsync(stream);
+                    }
+                }
+                else
+                {
+                    respons.ErrorMessage = "مشکلی در اضافه کردن رکورد به وجود آمده است";
+                    respons.Succided = false;
+                }
+            }
             return respons;
-
         }
-
 
         public async Task<ResponsDto> Delete(long id)
         {
             ResponsDto respons = new ResponsDto();
 
-            var tour = await _travelContext.Tours.FirstOrDefaultAsync(x => x.Id == id);
+            var tour = await _travelContext.Tours.Include(x=>x.Images).FirstOrDefaultAsync(x => x.Id == id);
             if (tour == null)
             {
                 respons.Succided = false;
                 respons.ErrorMessage = "رکورد یافت نشد";
                 return respons;
             }
-            _travelContext.Tours.Remove(tour);
+            tour.IsRemoved=true;
+            if (tour.Images != null && tour.Images.Any())
+            {
+                foreach (var image in tour.Images)
+                {
+                    image.IsRemoved = true;
+                }
+            }
+            
             var res = await _travelContext.SaveChangesAsync();
 
             respons.Succided = res > 0 ? true : false;
@@ -75,7 +125,7 @@ namespace Service
             var tour = await _travelContext.Tours.FirstOrDefaultAsync(x => x.Id == tourDto.Id);
             if (tour != null)
             {
-                tour.Id= tourDto.Id;
+                tour.Id = tourDto.Id;
                 tour.Duration = tourDto.Duration;
                 tour.StartDate = tourDto.StartDate;
                 tour.Price = tourDto.Price;
@@ -89,9 +139,46 @@ namespace Service
                 tour.IsActive = tourDto.IsActive;
                 tour.IsConfirm = tourDto.IsConfirm;
                 tour.TourType = tourDto.TourType;
+                if (tourDto.Images != null && tourDto.Images.Any())
+                {
+                    string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/tours/images");
+                    foreach (var file in tourDto.Images)
+                    {
+                        string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                        string filePath = Path.Combine(uploadPath, fileName);
+                        await _travelContext.Images.AddAsync(new Image
+                        {
+                            Path = filePath,
+                            TourId = tourDto.Id
+                        });
+                    }
+                }
                 var res = await _travelContext.SaveChangesAsync();
-                respons.Succided = res > 0 ? true : false;
-                respons.ErrorMessage = res > 0 ? "" : "مشکلی در ویرایش رکورد به وجود آمده است";
+
+                if (res > 0)
+                {
+                    respons.ErrorMessage = "";
+                    respons.Succided = true;
+                    if (tourDto.Images != null && tourDto.Images.Any())
+                    {
+                        string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/tours/images");
+                        if (!Directory.Exists(uploadPath))
+                            Directory.CreateDirectory(uploadPath);
+                        foreach (var file in tourDto.Images)
+                        {
+                            string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                            string filePath = Path.Combine(uploadPath, fileName);
+
+                            using var stream = new FileStream(filePath, FileMode.Create);
+                            await file.CopyToAsync(stream);
+                        }
+                    }
+                }
+                else
+                {
+                    respons.ErrorMessage = "مشکلی در اضافه کردن رکورد به وجود آمده است";
+                    respons.Succided = false;
+                }
                 return respons;
             }
 
@@ -101,7 +188,7 @@ namespace Service
 
         public async Task<List<TourDto>> GetAll()
         {
-            return await _travelContext.Tours
+            return await _travelContext.Tours.Include(x=>x.Images)
                 .Select(t => new TourDto
                 {
                     Id = t.Id,
@@ -120,7 +207,8 @@ namespace Service
                     TourType = t.TourType,
                     AgencyName = t.Agency.Name,
                     CategoryName = t.Category.Name,
-                    CityName = t.City.Name
+                    CityName = t.City.Name,
+                    ImageUrls=t.Images.Select(i=>i.Path).ToList()
                 }).ToListAsync();
         }
 
@@ -229,7 +317,14 @@ namespace Service
                 tourDto.AgencyName = tour.Agency.Name;
                 tourDto.CategoryName = tour.Category.Name;
                 tourDto.CityName = tour.City.Name;
-
+                if (tour.Images!=null)
+                {
+                    for (int i = 0; i < tour.Images.Count(); i++)
+                    {
+                        tourDto.ImageUrls[i] = tour.Images[i].Path;
+                    }
+                }
+               
                 return tourDto;
             }
             return null;

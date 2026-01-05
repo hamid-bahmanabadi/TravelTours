@@ -1,4 +1,5 @@
 ﻿using DTO.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -65,6 +66,12 @@ namespace DTO
 
         [Display(Name = "فعال")]
         public bool IsActive { get; set; }
+        public bool IsRemoved { get; set; }=false;
+
+        [Display(Name = "تصاویر تور")]
+        public IEnumerable<IFormFile>? Images { get; set; } 
+
+        public List<string>? ImageUrls { get; set; }
 
         public string? CityName { get; set; }
         public string? AgencyName { get; set; }

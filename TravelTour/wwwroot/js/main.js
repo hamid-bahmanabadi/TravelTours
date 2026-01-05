@@ -1,4 +1,15 @@
-﻿(function ($) {
+﻿
+< !--Slick Carousel-- >
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+<!--Custom JS-- >
+    <script src="~/js/main.js" asp-append-version="true"></script>
+
+
+
+@await RenderSectionAsync("Scripts", required: false)
+
+(function ($) {
     "use strict";
 
 
