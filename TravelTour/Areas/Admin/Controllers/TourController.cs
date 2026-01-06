@@ -29,18 +29,18 @@ namespace TravelTour.Areas.Admin.Controllers
             int totalCount = tourList.Count;
             ViewBag.PageCount = (int)Math.Ceiling((decimal)totalCount / pageSize);
             ViewBag.PageNumber = pageNumber;
-            var paged = tourList.Where(x => x.IsActive && x.IsConfirm)
-                .OrderByDescending(x => x.StartDate)
+            var paged = tourList.OrderByDescending(x => x.StartDate)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
+
 
             return View(paged);
         }
         [HttpGet]
         public async Task<IActionResult> Delete(long TourId)
         {
-            var Tour = await _service.GetById(TourId);
+            var Tourdto = await _service.GetById(TourId);
             var cities = await _Cityservice.GetAllCities();
 
             ViewBag.Cities = cities.Select(c => new SelectListItem
@@ -48,13 +48,13 @@ namespace TravelTour.Areas.Admin.Controllers
                 Value = c.Id.ToString(),
                 Text = c.Name
             }).ToList();
-            if (Tour == null)
+            if (Tourdto == null)
             {
                 ViewBag.Errors = "تور مورد نظر یافت نشد";
-                return RedirectToAction("Index");
+                return View(Tourdto);
             }
-
-            return View(Tour);
+            await _service.Delete(TourId);
+            return RedirectToAction("Index");
         }
         [HttpPost]
         public async Task<IActionResult> Delete(TourDto tourDto)
@@ -95,7 +95,7 @@ namespace TravelTour.Areas.Admin.Controllers
                     }
                 }
                 ViewBag.Errors = ErrorList;
-                return View();
+                return View(tourDto);
             }
             var result = await _service.Add(tourDto);
             if (!result.Succided)
@@ -147,6 +147,13 @@ namespace TravelTour.Areas.Admin.Controllers
             if (!result.Succided)
             {
                 ViewBag.Errors = result.ErrorMessage;
+                var cities = await _Cityservice.GetAllCities();
+
+                ViewBag.Cities = cities.Select(c => new SelectListItem
+                {
+                    Value = c.Id.ToString(),
+                    Text = c.Name
+                }).ToList();
                 return View(tourDto);
             }
             return RedirectToAction("Index");

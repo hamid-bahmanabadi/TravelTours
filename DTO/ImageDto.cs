@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entities
+namespace DTO
 {
-    public class Image
+    public class ImageDto
     {
-        [Key]
         public long Id { get; set; }
 
         [Required]
         [MaxLength(255)]
+        [Display(Name = "مسیر عکس")]
         public string Path { get; set; }
 
         [Required]
+        [Display(Name = "تور")]
         public long TourId { get; set; }
-        public bool IsRemoved { get; set; }=false;
-
-        public Tour Tour { get; set; }
+        public bool IsRemoved { get; set; } = false;
     }
-
 }

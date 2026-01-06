@@ -1,4 +1,7 @@
-﻿(function ($) {
+﻿
+@await RenderSectionAsync("Scripts", required: false)
+
+(function ($) {
     "use strict";
 
 
