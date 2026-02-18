@@ -1,22 +1,42 @@
 ﻿@model TourDto
 
 @{
-    ViewData["Title"] = "ویرایش  تور ";
-   
+    ViewData["Title"] = "ویرایش تور";
+
+    // تعریف لیست ماه‌های شمسی برای استفاده در تقویم
+    var persianMonths = new[] {
+        new { Value = 1, Name = "فروردین" },
+        new { Value = 2, Name = "اردیبهشت" },
+        new { Value = 3, Name = "خرداد" },
+        new { Value = 4, Name = "تیر" },
+        new { Value = 5, Name = "مرداد" },
+        new { Value = 6, Name = "شهریور" },
+        new { Value = 7, Name = "مهر" },
+        new { Value = 8, Name = "آبان" },
+        new { Value = 9, Name = "آذر" },
+        new { Value = 10, Name = "دی" },
+        new { Value = 11, Name = "بهمن" },
+        new { Value = 12, Name = "اسفند" }
+    };
+
+    // سال جاری شمسی (تقریبی)
+    var currentYear = 1403;
+    var years = Enumerable.Range(currentYear - 5, 11).ToList();
 }
 <div class="container" style="max-width: 900px; margin: 40px auto; text-align: right; direction: rtl;">
     <header class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-end">ثبت تور جدید</h2>
+        <h2 class="text-end">ویرایش تور</h2>
         <a asp-action="Index" asp-controller="Tour" class="btn btn-secondary">بازگشت به لیست</a>
     </header>
 
     <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
     <form asp-action="Edit" asp-controller="Tour" method="post">
+        <input type="hidden" asp-for="Id" />
 
         <div class="form-section">
             <div class="section-title">اطلاعات اساسی</div>
-            <input asp-for="Id" class="form-control" hidden />
+
             <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -103,8 +123,12 @@
             <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label asp-for="StartDate" class="form-label">تاریخ شروع</label>
-                        <input asp-for="StartDate" type="datetime-local" class="form-control" />
+                        <label asp-for="StartDate" class="form-label">تاریخ شروع (شمسی)</label>
+                        <div class="persian-date-input-wrapper">
+                            <input type="text" id="persianDateInput" class="form-control persian-date-input" placeholder="روز / ماه / سال" readonly />
+                            <input type="hidden" asp-for="StartDate" id="StartDate" />
+                        </div>
+                        <small class="text-muted">برای انتخاب تاریخ کلیک کنید</small>
                         <span asp-validation-for="StartDate" class="text-danger small"></span>
                     </div>
                 </div>
@@ -152,7 +176,7 @@
 
         <div class="d-flex gap-2 justify-content-end mb-4">
             <button type="submit" class="btn btn-success btn-lg">
-                <i class="fa fa-save"></i> ویرایش تور
+                <i class="fa fa-save"></i> ذخیره تغییرات
             </button>
             <a asp-action="Index" class="btn btn-secondary btn-lg">
                 <i class="fa fa-times"></i> انصراف
@@ -161,8 +185,271 @@
     </form>
 </div>
 
+<!-- modal -->
+<div class="modal fade" id="persianCalendarModal" tabindex="-1" aria-labelledby="persianCalendarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header paleblue-bg">
+                <h5 class="modal-title text-white" id="persianCalendarModalLabel">انتخاب تاریخ شمسی</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="calendar-nav d-flex justify-content-between align-items-center mb-3">
+                    <button class="btn paleblue-btn" id="prevMonthBtn">
+                        <i class="fa fa-chevron-right"></i> ماه قبل
+                    </button>
+                    <select id="monthSelect" class="form-select w-auto d-inline-block" style="width: auto !important;">
+                        @foreach (var month in persianMonths)
+                        {
+                        <option value="@month.Value">@month.Name</option>
+                        }
+                    </select>
+                    <select id="yearSelect" class="form-select w-auto d-inline-block" style="width: auto !important;">
+                        @foreach (var year in years.OrderByDescending(y => y))
+                        {
+                        <option value="@year">@year</option>
+                        }
+                    </select>
+                    <button class="btn paleblue-btn" id="nextMonthBtn">
+                        ماه بعد <i class="fa fa-chevron-left"></i>
+                    </button>
+                </div>
+                <table class="calendar-table" id="persianCalendar">
+                    <thead>
+                        <tr>
+                            <th>ش</th>
+                            <th>ی</th>
+                            <th>د</th>
+                            <th>س</th>
+                            <th>چ</th>
+                            <th>پ</th>
+                            <th>ج</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendarBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        $(document).ready(function () {
+
+            let currentYear = 1403; 
+            let currentMonth = 1; 
+            let selectedYear = currentYear;
+            let selectedMonth = currentMonth;
+            let selectedDay = null;
+
+            $('#yearSelect').val(currentYear);
+            $('#monthSelect').val(currentMonth);
+
+            function toPersianNumber(num) {
+                const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+                return num.toString().replace(/\d/g, x => persianDigits[x]);
+            }
+
+            function toEnglishNumber(str) {
+                const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+                let result = str;
+                persianDigits.forEach((digit, index) => {
+                    result = result.replace(new RegExp(digit, 'g'), index);
+                });
+                return result;
+            }
+
+            function getDaysInPersianMonth(year, month) {
+                if (month <= 6) return 31;
+                if (month <= 11) return 30;
+                return 29;
+            }
+
+            function getFirstDayOfMonth(year, month) {
+                let baseYear = 1403;
+                let baseMonth = 1;
+                let baseDayOfWeek = 6; 
+
+                let monthDiff = (year - baseYear) * 12 + (month - baseMonth);
+                return (baseDayOfWeek + (monthDiff * 2)) % 7;
+            }
+
+            function gregorianToPersian(gregorianDate) {
+                if (!gregorianDate) return { year: currentYear, month: 1, day: 1 };
+
+                const date = new Date(gregorianDate);
+                const baseGregorian = new Date(2024, 2, 20);
+                const basePersian = { year: 1403, month: 1, day: 1 };
+
+                const diffTime = date - baseGregorian;
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+                let persianYear = basePersian.year;
+                let persianMonth = basePersian.month;
+                let persianDay = basePersian.day + diffDays;
+
+                while (persianDay > getDaysInPersianMonth(persianYear, persianMonth)) {
+                    persianDay -= getDaysInPersianMonth(persianYear, persianMonth);
+                    persianMonth++;
+                    if (persianMonth > 12) {
+                        persianMonth = 1;
+                        persianYear++;
+                    }
+                }
+
+                return { year: persianYear, month: persianMonth, day: persianDay };
+            }
+
+            function renderCalendar(year, month) {
+                const daysInMonth = getDaysInPersianMonth(year, month);
+                const firstDay = getFirstDayOfMonth(year, month);
+
+                let html = '<tr>';
+
+                for (let i = 0; i < firstDay; i++) {
+                    html += '<td class="empty-cell"></td>';
+                }
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const isToday = (year === currentYear && month === currentMonth && day === 1); // برای نمونه
+                    const isSelected = (year === selectedYear && month === selectedMonth && day === selectedDay);
+
+                    let tdClass = '';
+                    if (isToday) tdClass = 'today';
+                    if (isSelected) tdClass = 'selected';
+
+                    html += `<td class="${tdClass}" data-day="${day}" data-month="${month}" data-year="${year}">${toPersianNumber(day)}</td>`;
+
+                    if ((firstDay + day) % 7 === 0) {
+                        html += '</tr><tr>';
+                    }
+                }
+
+                const totalCells = firstDay + daysInMonth;
+                const remainingCells = Math.ceil(totalCells / 7) * 7 - totalCells;
+                for (let i = 0; i < remainingCells; i++) {
+                    html += '<td class="empty-cell"></td>';
+                }
+
+                html += '</tr>';
+                $('#calendarBody').html(html);
+            }
+
+            function persianToGregorian(year, month, day) {
+                const basePersianYear = 1403;
+                const basePersianMonth = 1;
+                const basePersianDay = 1;
+                const baseGregorianDate = new Date(2024, 2, 20); 
+
+                let daysDiff = 0;
+                for (let y = basePersianYear; y < year; y++) {
+                    daysDiff += 365; 
+                }
+                for (let m = basePersianMonth; m < month; m++) {
+                    daysDiff += getDaysInPersianMonth(year, m);
+                }
+                daysDiff += (day - basePersianDay);
+
+                let resultDate = new Date(baseGregorianDate);
+                resultDate.setDate(resultDate.getDate() + daysDiff);
+
+                return resultDate;
+            }
+
+            function loadExistingDate() {
+                const startDateValue = $('#StartDate').val();
+                if (startDateValue) {
+                    const persianDate = gregorianToPersian(startDateValue);
+                    selectedYear = persianDate.year;
+                    selectedMonth = persianDate.month;
+                    selectedDay = persianDate.day;
+
+                    $('#yearSelect').val(selectedYear);
+                    $('#monthSelect').val(selectedMonth);
+
+                    $('#persianDateInput').val(`${toPersianNumber(selectedDay)}/${toPersianNumber(selectedMonth)}/${toPersianNumber(selectedYear)}`);
+                }
+            }
+
+            $(document).on('click', '#calendarBody td:not(.empty-cell)', function () {
+                const day = $(this).data('day');
+                const month = $(this).data('month');
+                const year = $(this).data('year');
+
+                selectedDay = day;
+                selectedMonth = month;
+                selectedYear = year;
+
+                renderCalendar(selectedYear, selectedMonth);
+
+                $('#persianDateInput').val(`${toPersianNumber(day)}/${toPersianNumber(month)}/${toPersianNumber(year)}`);
+
+                const gregorianDate = persianToGregorian(year, month, day);
+                const yearGreg = gregorianDate.getFullYear();
+                const monthGreg = String(gregorianDate.getMonth() + 1).padStart(2, '0');
+                const dayGreg = String(gregorianDate.getDate()).padStart(2, '0');
+                $('#StartDate').val(`${yearGreg}-${monthGreg}-${dayGreg}T00:00:00`);
+
+                $('#persianCalendarModal').modal('hide');
+            });
+
+            $('#persianDateInput').click(function () {
+                if (selectedDay) {
+                    $('#yearSelect').val(selectedYear);
+                    $('#monthSelect').val(selectedMonth);
+                }
+                renderCalendar(selectedYear, selectedMonth);
+                $('#persianCalendarModal').modal('show');
+            });
+
+            $('#prevMonthBtn').click(function () {
+                if (selectedMonth === 1) {
+                    selectedMonth = 12;
+                    selectedYear--;
+                } else {
+                    selectedMonth--;
+                }
+                $('#yearSelect').val(selectedYear);
+                $('#monthSelect').val(selectedMonth);
+                renderCalendar(selectedYear, selectedMonth);
+            });
+
+            $('#nextMonthBtn').click(function () {
+                if (selectedMonth === 12) {
+                    selectedMonth = 1;
+                    selectedYear++;
+                } else {
+                    selectedMonth++;
+                }
+                $('#yearSelect').val(selectedYear);
+                $('#monthSelect').val(selectedMonth);
+                renderCalendar(selectedYear, selectedMonth);
+            });
+
+            $('#monthSelect, #yearSelect').change(function () {
+                selectedYear = parseInt($('#yearSelect').val());
+                selectedMonth = parseInt($('#monthSelect').val());
+                renderCalendar(selectedYear, selectedMonth);
+            });
+
+            loadExistingDate();
+
+            if (!selectedDay) {
+                const today = new Date();
+                const persianToday = gregorianToPersian(today);
+                selectedYear = persianToday.year;
+                selectedMonth = persianToday.month;
+                selectedDay = persianToday.day;
+            }
+
+            renderCalendar(selectedYear, selectedMonth);
+        });
+    </script>
 }

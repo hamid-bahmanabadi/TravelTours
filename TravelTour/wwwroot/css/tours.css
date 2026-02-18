@@ -45,16 +45,20 @@
     height: 100vh;
 }
 
-    .tour-header h1 {
-        font-size: 3.5rem;
-        font-weight: 800;
-        margin-bottom: 20px;
-        text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
-        position: relative;
-        z-index: 1;
-        color: var( --tour-primary);
-        animation: glowText 3s infinite alternate ease-in-out, pulseText 4s infinite alternate ease-in-out; /* آرام‌تر شد */
-    }
+.tour-header h1 {
+    font-family: 'Vazir', 'Tahoma', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
+    color: var(--tour-primary);
+    animation: glowText 3s infinite alternate ease-in-out, pulseText 4s infinite alternate ease-in-out;
+    letter-spacing: -0.5px; 
+    line-height: 1.4; 
+}
+
 
 @keyframes pulseText {
     0% {
@@ -249,7 +253,6 @@
     font-size: 0.85rem;
 }
 
-/* تصویر تور */
 .tour-image-container {
     height: 260px;
     background-size: cover;
@@ -738,7 +741,11 @@
     }
 }
 
-
+@media (max-width: 576px) {
+    .tour-header h1 {
+        font-size: 2rem;
+    }
+}
 @media (min-width: 769px) {
     .filter-buttons {
         display: flex;
@@ -749,6 +756,9 @@
 
     .tour-filter-btn {
         min-width: 120px;
+    }
+    .tour-header h1 {
+        font-size: 2.5rem;
     }
 }
 

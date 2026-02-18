@@ -29,8 +29,8 @@ namespace TravelTour.Areas.Admin.Controllers
             int totalCount = tourList.Count;
             ViewBag.PageCount = (int)Math.Ceiling((decimal)totalCount / pageSize);
             ViewBag.PageNumber = pageNumber;
-            var paged = tourList.Where(x => x.IsActive && x.IsConfirm)
-                .OrderByDescending(x => x.StartDate)
+            var paged = tourList
+                            .OrderByDescending(x => x.StartDate)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
