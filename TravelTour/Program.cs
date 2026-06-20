@@ -20,6 +20,7 @@ builder.Services.AddIdentity<AppUser,AppRole>()
 #region Services
 builder.Services.AddScoped<ITourService, TourService>();
 builder.Services.AddScoped<ICityService, CityService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<TourService>();
 
 #endregion

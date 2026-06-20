@@ -31,23 +31,24 @@
 
     <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
-    <form asp-action="Create" asp-controller="Tour" method="post">
-
+    <form asp-action="Create" asp-controller="Tour" method="post" enctype="multipart/form-data">
+        
         <div class="form-section">
             <div class="section-title">اطلاعات اساسی</div>
-
+            <hr />
             <div class="row mb-3">
-                <div class="col-md-6">
-                    <div class="form-group">
+                <div class="col-12 col-md-6 d-flex flex-column">
+                    <div class="form-group h-100 d-flex flex-column">
                         <label asp-for="Title" class="form-label">عنوان تور</label>
-                        <input asp-for="Title" class="form-control" placeholder="عنوان تور را وارد کنید" />
+                        <input asp-for="Title" class="form-control flex-grow-1" placeholder="عنوان تور را وارد کنید" />
                         <span asp-validation-for="Title" class="text-danger small"></span>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
+                <div class="col-12 col-md-6 d-flex flex-column">
+                    <div class="form-group h-100 d-flex flex-column">
                         <label asp-for="TourType" class="form-label">نوع تور</label>
-                        <select asp-for="TourType" class="form-select">
+                        <select asp-for="TourType" class="form-select flex-grow-1">
+                            <option value="">نوع تور را انتخاب کنید</option>
                             <option value="0">زمینی</option>
                             <option value="1">دریایی</option>
                             <option value="2">هوایی</option>
@@ -56,13 +57,22 @@
                         <span asp-validation-for="TourType" class="text-danger small"></span>
                     </div>
                 </div>
+                <div class="col-12 col-md-6 d-flex flex-column">
+                    <div class="form-group h-100 d-flex flex-column">
+                        <label asp-for="Images" class="form-label">عکس تور</label>
+                        <input type="file" id="imageInput" asp-for="Images" placeholder="انتخاب عکس" multiple accept="image/*" />
+                        <span asp-validation-for="Images" class="text-danger small"></span>
+                    </div>
+                    <div id="previewContainer"
+                         style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+                    </div>
+                </div>
             </div>
-
-            <div class="row mb-3">
-                <div class="col-md-4">
-                    <div class="form-group">
+            <div class="row mb-3 gx-3">
+                <div class="col-12 col-md-4 d-flex flex-column">
+                    <div class="form-group h-100 d-flex flex-column">
                         <label asp-for="AgencyId" class="form-label">آژانس</label>
-                        <select asp-for="AgencyId" class="form-select">
+                        <select asp-for="AgencyId" class="form-select flex-grow-1">
                             <option value="">-- آژانس را انتخاب کنید --</option>
                             <option value="1">آژانس اول</option>
                             <option value="2">آژانس دوم</option>
@@ -70,19 +80,19 @@
                         <span asp-validation-for="AgencyId" class="text-danger small"></span>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
+                <div class="col-12 col-md-4 d-flex flex-column">
+                    <div class="form-group h-100 d-flex flex-column">
                         <label asp-for="CityId" class="form-label">شهر</label>
-                        <select asp-for="CityId" asp-items="ViewBag.Cities" class="form-select">
+                        <select asp-for="CityId" asp-items="ViewBag.Cities" class="form-select flex-grow-1">
                             <option value="">-- شهر را انتخاب کنید --</option>
                         </select>
                         <span asp-validation-for="CityId" class="text-danger small"></span>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
+                <div class="col-12 col-md-4 d-flex flex-column">
+                    <div class="form-group h-100 d-flex flex-column">
                         <label asp-for="CategoryId" class="form-label">دسته‌بندی</label>
-                        <select asp-for="CategoryId" class="form-select">
+                        <select asp-for="CategoryId" class="form-select flex-grow-1">
                             <option value="">-- دسته‌بندی را انتخاب کنید --</option>
                             <option value="1">طبیعت گردی</option>
                             <option value="2">کاری</option>
@@ -97,7 +107,7 @@
 
         <div class="form-section">
             <div class="section-title">اطلاعات مالی و ظرفیت</div>
-
+            <hr />
             <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -143,7 +153,7 @@
 
         <div class="form-section">
             <div class="section-title">توضیحات و وضعیت</div>
-
+            <hr />
             <div class="form-group mb-3">
                 <label asp-for="Description" class="form-label">توضیحات</label>
                 <textarea asp-for="Description" class="form-control" rows="5" placeholder="توضیحات تور را وارد کنید"></textarea>
@@ -238,147 +248,38 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
-    <script>
-        $(document).ready(function () {
-           
-            let currentYear = 1403; 
-            let currentMonth = 1; 
-            let selectedYear = currentYear;
-            let selectedMonth = currentMonth;
-            let selectedDay = null;
-
-            $('#yearSelect').val(currentYear);
-            $('#monthSelect').val(currentMonth);
-
-            function toPersianNumber(num) {
-                const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-                return num.toString().replace(/\d/g, x => persianDigits[x]);
-            }
-
-            function getDaysInPersianMonth(year, month) {
-                if (month <= 6) return 31;
-                if (month <= 11) return 30;
-                return 29; 
-            }
-
-            function getFirstDayOfMonth(year, month) {
-                let baseYear = 1403;
-                let baseMonth = 1;
-                let baseDayOfWeek = 6;
-
-                let monthDiff = (year - baseYear) * 12 + (month - baseMonth);
-                return (baseDayOfWeek + (monthDiff * 2)) % 7;
-            }
-
-            function renderCalendar(year, month) {
-                const daysInMonth = getDaysInPersianMonth(year, month);
-                const firstDay = getFirstDayOfMonth(year, month); 
-
-                let html = '<tr>';
-
-                for (let i = 0; i < firstDay; i++) {
-                    html += '<td class="empty-cell"></td>';
-                }
-
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const isToday = (year === currentYear && month === currentMonth && day === 1); // برای نمونه روز جاری را 1 فرض می‌کنیم
-                    const isSelected = (year === selectedYear && month === selectedMonth && day === selectedDay);
-
-                    let tdClass = '';
-                    if (isToday) tdClass = 'today';
-                    if (isSelected) tdClass = 'selected';
-
-                    html += `<td class="${tdClass}" data-day="${day}" data-month="${month}" data-year="${year}">${toPersianNumber(day)}</td>`;
-
-                    if ((firstDay + day) % 7 === 0) {
-                        html += '</tr><tr>';
-                    }
-                }
-
-                const totalCells = firstDay + daysInMonth;
-                const remainingCells = Math.ceil(totalCells / 7) * 7 - totalCells;
-                for (let i = 0; i < remainingCells; i++) {
-                    html += '<td class="empty-cell"></td>';
-                }
-
-                html += '</tr>';
-                $('#calendarBody').html(html);
-            }
-
-            function persianToGregorian(year, month, day) {
-                const basePersianYear = 1403;
-                const basePersianMonth = 1;
-                const basePersianDay = 1;
-                const baseGregorianDate = new Date(2024, 2, 20); 
-
-                let daysDiff = 0;
-                daysDiff = (year - basePersianYear) * 365 + (month - basePersianMonth) * 30 + (day - basePersianDay);
-
-                let resultDate = new Date(baseGregorianDate);
-                resultDate.setDate(resultDate.getDate() + daysDiff);
-
-                return resultDate;
-            }
-
-            $(document).on('click', '#calendarBody td:not(.empty-cell)', function () {
-                const day = $(this).data('day');
-                const month = $(this).data('month');
-                const year = $(this).data('year');
-
-                selectedDay = day;
-                selectedMonth = month;
-                selectedYear = year;
-
-                renderCalendar(selectedYear, selectedMonth);
-
-                const displayText = `${toPersianNumber(day)}/${toPersianNumber(month)}/${toPersianNumber(year)}`;
-                $('#persianDateInput').val(displayText);
-
-                const gregorianDate = persianToGregorian(year, month, day);
-                const yearGreg = gregorianDate.getFullYear();
-                const monthGreg = String(gregorianDate.getMonth() + 1).padStart(2, '0');
-                const dayGreg = String(gregorianDate.getDate()).padStart(2, '0');
-                $('#StartDate').val(`${yearGreg}-${monthGreg}-${dayGreg}T00:00:00`);
-
-                $('#persianCalendarModal').modal('hide');
-            });
-
-            $('#persianDateInput').click(function () {
-                $('#persianCalendarModal').modal('show');
-            });
-
-            $('#prevMonthBtn').click(function () {
-                if (selectedMonth === 1) {
-                    selectedMonth = 12;
-                    selectedYear--;
-                } else {
-                    selectedMonth--;
-                }
-                $('#yearSelect').val(selectedYear);
-                $('#monthSelect').val(selectedMonth);
-                renderCalendar(selectedYear, selectedMonth);
-            });
-
-            $('#nextMonthBtn').click(function () {
-                if (selectedMonth === 12) {
-                    selectedMonth = 1;
-                    selectedYear++;
-                } else {
-                    selectedMonth++;
-                }
-                $('#yearSelect').val(selectedYear);
-                $('#monthSelect').val(selectedMonth);
-                renderCalendar(selectedYear, selectedMonth);
-            });
-
-            $('#monthSelect, #yearSelect').change(function () {
-                selectedYear = parseInt($('#yearSelect').val());
-                selectedMonth = parseInt($('#monthSelect').val());
-                renderCalendar(selectedYear, selectedMonth);
-            });
-
-            renderCalendar(currentYear, currentMonth);
-        });
-    </script>
 }
+<script>
+    document.getElementById('imageInput').addEventListener('change', function () {
+
+        const previewContainer = document.getElementById('previewContainer');
+        previewContainer.innerHTML = ''; // پاک کردن قبلی‌ها
+
+        const files = this.files;
+
+        if (!files || files.length === 0) return;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+
+            // فقط عکس
+            if (!file.type.startsWith('image/')) continue;
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.width = '120px';
+                img.style.height = '120px';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '8px';
+                img.style.border = '1px solid #ddd';
+
+                previewContainer.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+</script>

@@ -39,8 +39,9 @@ namespace Entities
         [Required]
         public int Capacity { get; set; }
         public bool IsActive { get; set; }=true;
+        public bool IsRemoved { get; set; }=false;
 
-        public IEnumerable<Image> Images { get; set; }
+        public List<Image> Images { get; set; }
         public IEnumerable<Reservation> Reservations { get; set; }
         public IEnumerable<Review> Reviews { get; set; }        
         public City City { get; set; }        

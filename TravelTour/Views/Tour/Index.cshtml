@@ -83,13 +83,26 @@
 
                             <div class="tour-price-section">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <span class="tour-price-badge sea">@item.TourType</span>
-                                    <span class="tour-price-badge expensive">گران‌ترین</span>
+                                    <span class="tour-price-badge sea">@item.TourType</span>                                
                                 </div>
                                 <div class="tour-price-comparison">                                    
                                     <div class="tour-price-item">
                                         <div class="tour-price-amount">
                                             <p>قیمت:@item.Price تومان</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tour-price-comparison">
+                                    <div class="tour-price-item">
+                                        <div class="tour-price-amount">
+                                            <p>زمان شروع تور:@item.StartDate</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tour-price-comparison">
+                                    <div class="tour-price-item">
+                                        <div class="tour-price-amount">
+                                            <p>مدت زمان تور:@item.Duration </p>
                                         </div>
                                     </div>
                                 </div>
@@ -161,7 +174,14 @@
     </div>
 
 </div>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
+    <!-- Slick Carousel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="~/js/main.js" asp-append-version="true"></script>
 @section Scripts {
     <script src="~/js/tours.js" asp-append-version="true"></script>
 }
