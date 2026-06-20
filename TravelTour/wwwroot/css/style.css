@@ -1,7 +1,29 @@
 ﻿/* ================================================= */
 /* ------------------ General CSS ------------------ */
 /* ================================================= */
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/Vazir.eot');
+    src: url('../fonts/Vazir.eot?#iefix') format('embedded-opentype'), url('../fonts/Vazir.woff2') format('woff2'), url('../fonts/Vazir.woff') format('woff'), url('../fonts/Vazir.ttf') format('truetype');
+    font-weight: normal;
+    font-display: swap;
+}
 
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/Vazir-Bold.eot');
+    src: url('../fonts/Vazir-Bold.eot?#iefix') format('embedded-opentype'), url('../fonts/Vazir-Bold.woff2') format('woff2'), url('../fonts/Vazir-Bold.woff') format('woff'), url('../fonts/Vazir-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vazir';
+    src: url('../fonts/Vazir-Light.eot');
+    src: url('../fonts/Vazir-Light.eot?#iefix') format('embedded-opentype'), url('../fonts/Vazir-Light.woff2') format('woff2'), url('../fonts/Vazir-Light.woff') format('woff'), url('../fonts/Vazir-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-display: swap;
+}
 * {
     box-sizing: border-box;
 }
@@ -495,86 +517,147 @@ h6 {
 /* ---------------- Welcome Section ---------------- */
 /* ================================================= */
 
+
+
 #welcome {
     position: relative;
-    padding: 45px 0 60px 0;
-    background: #ffffff;
+    padding: 60px 0 70px 0;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
     text-align: center;
+    font-family: 'Vazir', 'Tahoma', sans-serif;
+    position: relative;
+    overflow: hidden;
 }
 
-    #welcome h3 {
-        font-size: 50px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 15px;
+    #welcome:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        height: 4px;
+        background: linear-gradient(90deg, transparent, #00CED1, #222222, #00CED1, transparent);
+        border-radius: 4px;
     }
 
-    #welcome h4 {
-        font-size: 35px;
+    #welcome h3 {
+        font-size: 52px;
         font-weight: 700;
-        letter-spacing: 1px;
+        letter-spacing: 0px;
         margin-bottom: 15px;
+        color: #222;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        position: relative;
+        display: inline-block;
+        padding-bottom: 15px;
+    }
+
+        #welcome h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #00CED1;
+            border-radius: 3px;
+        }
+
+    #welcome h4 {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: 0px;
+        margin-bottom: 20px;
+        color: #00CED1;
+        text-shadow: 1px 1px 2px rgba(0,206,209,0.2);
     }
 
     #welcome p {
         font-size: 20px;
         font-weight: 300;
-        line-height: 30px;
-        margin-bottom: 25px;
+        line-height: 34px;
+        margin-bottom: 30px;
+        color: #555;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 20px;
     }
+
+    #welcome a {
+        display: inline-block;
+        padding: 12px 40px;
+        color: #00CED1;
+        background: #222222;
+        border-radius: 50px;
+        font-weight: 500;
+        font-size: 18px;
+        text-decoration: none;
+        transition: all 0.4s ease;
+        border: 2px solid transparent;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+        #welcome a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        #welcome a:hover {
+            color: #222222;
+            background: #00CED1;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,206,209,0.4);
+        }
+
+            #welcome a:hover:before {
+                left: 100%;
+            }
 
 @media (max-width: 767.98px) {
     #welcome h3 {
         font-size: 40px;
-        font-weight: 700;
     }
 
     #welcome h4 {
         font-size: 30px;
-        font-weight: 400;
     }
 
     #welcome p {
         font-size: 18px;
-        line-height: 28px;
+        line-height: 30px;
+    }
+
+    #welcome a {
+        padding: 10px 30px;
+        font-size: 16px;
     }
 }
 
 @media (max-width: 575.98px) {
     #welcome h3 {
-        font-size: 30px;
-        font-weight: 700;
-        letter-spacing: 0;
+        font-size: 32px;
     }
 
     #welcome h4 {
-        font-size: 20px;
-        font-weight: 400;
+        font-size: 24px;
     }
 
     #welcome p {
         font-size: 16px;
-        line-height: 26px;
+        line-height: 28px;
     }
 }
-
-#welcome a {
-    display: inline-block;
-    padding: 7px 30px;
-    color: #00CED1;
-    background: #222222;
-    border-radius: 30px;
-}
-
-    #welcome a:hover {
-        color: #222222;
-        background: #00CED1;
-    }
-
-
-
-
 
 
 /*tour form */
@@ -624,7 +707,6 @@ h6 {
     background: #ffffff;
 }
 
-/* بهبود استایل برای موبایل */
 @media (max-width: 767.98px) {
     #search.search-home .control-group {
         margin-top: 10px;
@@ -685,7 +767,7 @@ h6 {
         letter-spacing: 1px;
         margin-bottom: 15px;
         color: #00CED1;
-        text-align: center; /* تیتر وسط‌چین */
+        text-align: center; 
     }
 
     .section-header p {
@@ -975,7 +1057,7 @@ h6 {
 }
 
 #rooms .room-des h1 {
-    font-size: 45px;
+    font-size: 25px;
     margin-bottom: 15px;
 }
 
@@ -983,6 +1065,7 @@ h6 {
         margin-left: 5px;
         font-size: 14px;
         font-weight: 400;
+
     }
 
 #rooms .room-size {
@@ -991,14 +1074,22 @@ h6 {
 }
 
     #rooms .room-size li {
-        display: inline-block;
-        font-size: 14px;
-        margin-right: 15px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 15px;
+        color: #555;
+        background: rgba(0,206,209,0.05);
+        padding: 8px 18px;
+        border-radius: 50px;
         list-style-type: none;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0,206,209,0.1);
     }
+
 
         #rooms .room-size li i {
             margin-right: 6px;
+            color:#00CED1;
         }
 
 #rooms .room-icon {
@@ -1031,83 +1122,83 @@ h6 {
 }
 
 #rooms .room-icon li.icon-1 {
-    background-image: url(../img/icon/shield.png);
+    background-image: url(../img/icon/shield-hover.png);
 }
 
     #rooms .room-icon li.icon-1:hover {
-        background-image: url(../img/icon/shield-hover.png);
+        background-image: url(../img/icon/shield.png);
     }
 
 #rooms .room-icon li.icon-2 {
-    background-image: url(../img/icon/air-conditioner.png);
+    background-image: url(../img/icon/air-conditioner-hover.png);
 }
 
     #rooms .room-icon li.icon-2:hover {
-        background-image: url(../img/icon/air-conditioner-hover.png);
+        background-image: url(../img/icon/air-conditioner.png);
     }
 
 #rooms .room-icon li.icon-3 {
-    background-image: url(../img/icon/bathtub.png);
+    background-image: url(../img/icon/bathtub-hover.png);
 }
 
     #rooms .room-icon li.icon-3:hover {
-        background-image: url(../img/icon/bathtub-hover.png);
+        background-image: url(../img/icon/bathtub.png);
     }
 
 #rooms .room-icon li.icon-4 {
-    background-image: url(../img/icon/shower.png);
+    background-image: url(../img/icon/shower-hover.png);
 }
 
     #rooms .room-icon li.icon-4:hover {
-        background-image: url(../img/icon/shower-hover.png);
+        background-image: url(../img/icon/shower.png);
     }
 
 #rooms .room-icon li.icon-5 {
-    background-image: url(../img/icon/towel.png);
+    background-image: url(../img/icon/towel-hover.png);
 }
 
     #rooms .room-icon li.icon-5:hover {
-        background-image: url(../img/icon/towel-hover.png);
+        background-image: url(../img/icon/towel.png);
     }
 
 #rooms .room-icon li.icon-6 {
-    background-image: url(../img/icon/television.png);
+    background-image: url(../img/icon/television-hover.png);
 }
 
     #rooms .room-icon li.icon-6:hover {
-        background-image: url(../img/icon/television-hover.png);
+        background-image: url(../img/icon/television.png);
     }
 
 #rooms .room-icon li.icon-7 {
-    background-image: url(../img/icon/wifi.png);
+    background-image: url(../img/icon/wifi-hover.png);
 }
 
     #rooms .room-icon li.icon-7:hover {
-        background-image: url(../img/icon/wifi-hover.png);
+        background-image: url(../img/icon/wifi.png);
     }
 
 #rooms .room-icon li.icon-8 {
-    background-image: url(../img/icon/call.png);
+    background-image: url(../img/icon/call-hover.png);
 }
 
     #rooms .room-icon li.icon-8:hover {
-        background-image: url(../img/icon/call-hover.png);
+        background-image: url(../img/icon/call.png);
     }
 
 #rooms .room-icon li.icon-9 {
-    background-image: url(../img/icon/minibar.png);
+    background-image: url(../img/icon/minibar-hover.png);
 }
 
     #rooms .room-icon li.icon-9:hover {
-        background-image: url(../img/icon/minibar-hover.png);
+        background-image: url(../img/icon/minibar.png);
     }
 
 #rooms .room-icon li.icon-10 {
-    background-image: url(../img/icon/kitchen.png);
+    background-image: url(../img/icon/kitchen-hover.png);
 }
 
     #rooms .room-icon li.icon-10:hover {
-        background-image: url(../img/icon/kitchen-hover.png);
+        background-image: url(../img/icon/kitchen.png);
     }
 
 #rooms .room-link {
@@ -1155,8 +1246,9 @@ h6 {
 .modal .modal-body h2 {
     margin-top: 15px;
     margin-bottom: 15px;
+    direction: rtl;
+    text-align: right;
 }
-
 .modal .modal-body p {
     margin-bottom: 15px;
 }
@@ -1170,15 +1262,16 @@ h6 {
     display: inline-block;
     margin: 0 auto;
     padding: 8px 30px;
-    background: #222222;
-    color: #00CED1;
     cursor: pointer;
     border: none;
+    color: #222222;
+    background: #00CED1;
+    border-radius:20px;
 }
 
     .modal .modal-body a:hover {
-        color: #222222;
-        background: #00CED1;
+        background: #222222;
+        color: #00CED1;
     }
 
 .modal .port-slider-nav .slick-track {
@@ -1538,3 +1631,117 @@ input::-ms-input-placeholder {
         margin: 0;
         font-size: 18px;
     }
+
+.modal-header-custom {
+    background: linear-gradient(135deg, #222222, #00CED1);
+    padding: 12px 20px;
+    border-bottom: none;
+}
+
+    .modal-header-custom .modal-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+
+    .modal-header-custom .close {
+        font-size: 1.8rem;
+        font-weight: 300;
+        opacity: 0.9;
+        transition: all 0.3s ease;
+    }
+
+        .modal-header-custom .close:hover {
+            opacity: 1;
+            transform: rotate(90deg);
+        }
+
+.modal-image-container {
+    width: 100%;
+    max-height: 250px;
+    overflow: hidden;
+}
+
+.modal-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.modal-content-text {
+    padding: 20px 25px;
+    text-align: right;
+    background: white;
+}
+
+.modal-room-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 12px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+    .modal-room-title:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(90deg, #00CED1, #222);
+        border-radius: 3px;
+    }
+
+.modal-room-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+.modal-room-footer {
+    text-align: center;
+}
+
+.btn-book {
+    display: inline-block;
+    padding: 10px 35px;
+    background: linear-gradient(135deg, #222, #00CED1);
+    color: white;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 5px 15px rgba(0,206,209,0.3);
+}
+
+    .btn-book:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,206,209,0.5);
+        background: linear-gradient(135deg, #00CED1, #222);
+        color: white;
+        text-decoration: none;
+    }
+
+.modal.fade .modal-dialog {
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+}
+
+.modal.show .modal-dialog {
+    transform: scale(1);
+}
+
+.modal-body {
+    padding: 0;
+}
+
+.modal-md {
+    max-width: 600px;
+}
+

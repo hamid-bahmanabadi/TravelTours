@@ -1,39 +1,96 @@
 ﻿@model List<TourDto>
 
-@{
+
+    @{
+
     ViewData["Title"] = "لیست تورها";
     int pageNumber = ViewBag.PageNumber;
     int pageCount = ViewBag.PageCount;
-   
-}
 
-<header class="d-flex justify-content-between align-items-center m-4">
-    <h2 class="text-end">لیست تورها</h2>
-    <a asp-controller="Tour" asp-action="Create" class="btn btn-primary text-white">
-        ثبت مورد جدید
-    </a>
-</header>
+    string ToPersianDate(DateTime? gregorianDate)
+    {
+        if (!gregorianDate.HasValue) return "-";
+
+        var date = gregorianDate.Value;
+        var baseGregorian = new DateTime(2024, 3, 20);
+        var basePersian = new { Year = 1403, Month = 1, Day = 1 };
+
+        var diffDays = (int)(date - baseGregorian).TotalDays;
+
+        int persianYear = basePersian.Year;
+        int persianMonth = basePersian.Month;
+        int persianDay = basePersian.Day + diffDays;
+
+        while (persianDay > 31)
+        {
+            if (persianMonth <= 6 && persianDay > 31)
+            {
+                persianDay -= 31;
+                persianMonth++;
+            }
+            else if (persianMonth > 6 && persianMonth <= 11 && persianDay > 30)
+            {
+                persianDay -= 30;
+                persianMonth++;
+            }
+            else if (persianMonth == 12 && persianDay > 29)
+            {
+                persianDay -= 29;
+                persianMonth = 1;
+                persianYear++;
+            }
+
+            if (persianMonth > 12)
+            {
+                persianMonth = 1;
+                persianYear++;
+            }
+        }
+
+        string[] persianDigits = { "۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹" };
+
+        string yearStr = persianYear.ToString();
+        string monthStr = persianMonth.ToString().PadLeft(2, '0');
+        string dayStr = persianDay.ToString().PadLeft(2, '0');
+
+        foreach (var digit in persianDigits.Select((d, i) => new { Index = i, Digit = d }))
+        {
+            yearStr = yearStr.Replace(digit.Index.ToString(), digit.Digit);
+            monthStr = monthStr.Replace(digit.Index.ToString(), digit.Digit);
+            dayStr = dayStr.Replace(digit.Index.ToString(), digit.Digit);
+        }
+
+        return $"{yearStr}/{monthStr}/{dayStr}";
+    }
+    }
+
+    <header class="d-flex justify-content-between align-items-center m-4">
+        <h2 class="text-end">لیست تورها</h2>
+        <a asp-controller="Tour" asp-action="Create" class="btn btn-primary text-white">
+            ثبت مورد جدید
+        </a>
+    </header>
 
 
-<body style="text-align:right">
-    <table class="table table-bordered table-hover text-center align-middle">
-        <thead class="table-secondary">
-        <tr>
-            <th>عنوان تور</th>
-            <th>آزانس مسافرتی</th>
-            <th>نوع تور</th>
-            <th>مقصد</th>
-            <th>قیمت</th>
-            <th>مدت</th>
-            <th>تاریخ شروع</th>
-            <th>ظرفیت</th>
-            <th>ویژه</th>
-            <th>وضعیت</th>
-            <th>عملیات</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Any())
+    <body style="text-align:right">
+        <table class="table table-bordered table-hover text-center align-middle">
+            <thead class="table-secondary">
+                <tr>
+                    <th>عنوان تور</th>
+                    <th>آزانس مسافرتی</th>
+                    <th>نوع تور</th>
+                    <th>مقصد</th>
+                    <th>قیمت</th>
+                    <th>مدت</th>
+                    <th>تاریخ شروع</th>
+                    <th>ظرفیت</th>
+                    <th>ویژه</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
         {
             foreach (var item in Model)
             {
@@ -44,7 +101,7 @@
                     <td>@item.CityName</td>
                     <td>@item.Price.ToString("N0")</td>
                     <td>@item.Duration روز</td>
-                    <td>@item.StartDate.ToString("yyyy/MM/dd")</td>
+                    <td>@ToPersianDate(item.StartDate)</td>
                     <td>@item.Capacity</td>
                     <td>
                         @(item.IsSpecial ? "ویژه" : "معمولی")
@@ -52,11 +109,11 @@
                     <td>
                         @if (item.IsActive && item.IsConfirm)
                         {
-                            <span class="badge bg-success">فعال</span>
+                        <span class="badge bg-success">فعال</span>
                         }
                         else
                         {
-                            <span class="badge bg-secondary">غیرفعال</span>
+                        <span class="badge bg-secondary">غیرفعال</span>
                         }
                     </td>
                      <td>
@@ -68,33 +125,30 @@
         }
         else
         {
-            <tr>
-                <td colspan="8">هیچ توری یافت نشد</td>
-            </tr>
+                <tr>
+                    <td colspan="8">هیچ توری یافت نشد</td>
+                </tr>
         }
-    </tbody>
-</table>
-    <!-- صفحه‌بندی -->
-    <nav>
-        <ul class="pagination justify-content-center">
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination justify-content-center">
 
-            <li class="page-item @(pageNumber == 1 ? "disabled" : "")">
-                <a class="page-link" href="?pageNumber=@(pageNumber - 1)">قبلی</a>
-            </li>
+                <li class="page-item @(pageNumber == 1 ? "disabled" : "")">
+                    <a class="page-link" href="?pageNumber=@(pageNumber - 1)">قبلی</a>
+                </li>
 
-            @for (int i = 1; i <= pageCount; i++)
+                @for (int i = 1; i <= pageCount; i++)
             {
                 <li class="page-item @(i == pageNumber ? "active" : "")">
                     <a class="page-link" href="?pageNumber=@i">@i</a>
                 </li>
             }
 
-            <li class="page-item @(pageNumber == pageCount ? "disabled" : "")">
-                <a class="page-link" href="?pageNumber=@(pageNumber + 1)">بعدی</a>
-            </li>
+                <li class="page-item @(pageNumber == pageCount ? "disabled" : "")">
+                    <a class="page-link" href="?pageNumber=@(pageNumber + 1)">بعدی</a>
+                </li>
 
-        </ul>
-    </nav>
-</body>
-
-
+            </ul>
+        </nav>
+    </body>

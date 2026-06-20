@@ -25,7 +25,7 @@
         <div class="mobile-menu-btn"><i class="fa fa-bars"></i></div>
         <nav class="main-menu top-menu">
             <ul>
-                <li><a asp-controller="Home" asp-action="Index">خانه</a></li>                
+                <li><a asp-controller="Home" asp-action="Index">خانه</a></li>
                 <li><a asp-controller="Tour" asp-action="index">تورها</a></li>
                 <li><a asp-controller="Home" asp-action="Room">آپارتمان ها</a></li>
                 <li><a asp-controller="Home" asp-action="Amenities">امکانات</a></li>
@@ -34,14 +34,9 @@
                 <li><a asp-controller="Home" asp-action="Login">ورود</a></li>
                 <li><a asp-controller="Home" asp-action="Contact">تماس با ما</a></li>
                 <li><a asp-controller="Home" asp-action="About">درباره ما</a></li>
-                <li><a asp-controller="Home" asp-action="Index" asp-area="Admin">پنل ادمین</a></li>
-                <li><a asp-controller="" asp-action="">خروج</a></li>
+                <li><a asp-controller="Tour" asp-action="Index" asp-area="Admin">پنل ادمین</a></li>
             </ul>
-            <ul>
-                <li><a asp-controller="Home" asp-action="Index">پنل ادمین</a></li>
-                <li><a asp-controller="Tour" asp-action="index">خروج</a></li>
-               
-            </ul>
+        
         </nav>
     </header>
     <!-- Header End -->
@@ -124,7 +119,6 @@
     <!-- Main JS -->
     <script src="~/js/main.js"></script>
 
-    <!-- تقویم فارسی کاملاً اصلاح شده (بدون خطای constant) -->
     <script>
         // Persian date utilities
         const persianMonths = [
@@ -172,7 +166,6 @@
             // Add click events to calendar icons
             document.querySelectorAll('.input-group-text').forEach(icon => {
                 icon.addEventListener('click', function () {
-                    console.log("کلیک روی آیکون تقویم");
                     const input = this.closest('.input-group').querySelector('.persian-date-input');
                     if (input) {
                         activeDateInput = input;
